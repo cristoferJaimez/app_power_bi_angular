@@ -109,7 +109,7 @@ export class DashboardComponent implements OnInit {
     this.http.get(url, { headers }).subscribe(
       (response: any) => {
         const posts = response;
-        console.log(posts);
+        //console.log(posts);
         
         if (Array.isArray(posts) && posts.length > 0) {
           this.posts = posts.map((post: any) => {

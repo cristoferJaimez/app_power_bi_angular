@@ -16,6 +16,9 @@ export class PowerBiService {
    
     const url = `http://localhost:3000/powerbi-report-details/${reportId}`;
     return this.http.get(url);
+
+
+
   }
 
   loadReport(embedConfig: IEmbedConfiguration, element: HTMLElement) {

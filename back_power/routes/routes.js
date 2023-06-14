@@ -5,6 +5,7 @@ const { isAdmin, isUser } = require('../middleware/authMiddleware');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const connection = require('../data/conex'); // Importa la conexión a la base de datos
+const axios = require('axios');
 const https = require('https');
 
 
@@ -196,43 +197,89 @@ router.post('/guardar-post', authenticateToken, isAdmin, (req, res) => {
 });
 
 // Ruta para obtener un informe de Power BI
-router.get('/powerbi-report-details/:id',  (req, res) => {
-  const reportId = req.params.id;
-  console.log(reportId);
-/*
-  // Llama al procedimiento almacenado report_view y pasa el reportId como parámetro
-  const query = `CALL report_view(?)`;
+router.get('/powerbi-report-details/:id', async (req, res) => {
+  try {
+    const reportId = req.params.id;
+    console.log(reportId);
+    const query = `CALL select_post(?)`;
 
-  connection.query(query, [reportId], (err, results) => {
-    if (err || results.length === 0) {
-      // Error al llamar al procedimiento almacenado o informe no encontrado
-      return res.status(404).json({ message: 'Informe no encontrado' });
+    connection.query(query, [reportId], async (err, results) => {
+      if (err || results.length === 0) {
+        console.log(err);
+        // Error al llamar al procedimiento almacenado o informe no encontrado
+        return res.status(404).json({ message: 'Informe no encontrado' });
+      }
+
+      const id_report = results[0][0].id_report; // Obtiene el id del informe desde los resultados del procedimiento almacenado
+      const embedUrl = results[0][0].url_report; // Obtiene la URL del informe desde los resultados del procedimiento almacenado
+      //const accessToken = results[0][0].toke_report; // Obtiene el accessToken desde los resultados del procedimiento almacenado
+
+      // Aquí puedes realizar las acciones adicionales con los resultados obtenidos
+      const clientId = process.env.CLIENT_ID;
+      const clientSecret = process.env.CLIENT_SECRET;
+      const resource = 'https://analysis.windows.net/powerbi/api'; // Puede variar dependiendo del recurso al que quieras acceder
+
+      try {
+        const response = await axios.post('https://login.microsoftonline.com/common/oauth2/token', {
+          grant_type: 'client_credentials',
+          client_id: clientId,
+          client_secret: clientSecret,
+          resource: resource
+        });
+
+        const accessToken = response.data.access_token;
+        const reportDetails = {
+          reportId: id_report,
+          embedUrl: embedUrl,
+          accessToken: accessToken,
+        };
+        // Utiliza el accessToken para acceder a tus informes de Power BI
+
+        res.json(reportDetails);
+      } catch (error) {
+        console.error('Error al obtener el token:', error.message);
+        const reportDetails = {
+          reportId: id_report,
+          embedUrl: embedUrl,
+          accessToken: "hhh_89",
+        };
+        // Utiliza el accessToken para acceder a tus informes de Power BI
+
+        res.json(reportDetails);
+        //res.status(500).send('Error al obtener el token');
+      }
+    });
+  } catch (error) {
+    console.error('Error en la ruta /powerbi-report-details:', error.message);
+    res.status(500).send('Error en la ruta /powerbi-report-details');
+  }
+});
+
+
+
+router.get('/get-token', async (req, res) => {
+    const clientId = process.env.CLIENT_ID;
+    const clientSecret = process.env.CLIENT_SECRET;
+    const resource = 'https://analysis.windows.net/powerbi/api'; // Puede variar dependiendo del recurso al que quieras acceder
+  
+    try {
+      const response = await axios.post('https://login.microsoftonline.com/common/oauth2/token', {
+        grant_type: 'client_credentials',
+        client_id: clientId,
+        client_secret: clientSecret,
+        resource: resource
+      });
+  
+      const accessToken = response.data.access_token;
+  
+      // Utiliza el accessToken para acceder a tus informes de Power BI
+  
+      res.send('Token obtenido correctamente');
+    } catch (error) {
+      console.error('Error al obtener el token:', error.message);
+      res.status(500).send('Error al obtener el token');
     }
-
-    
-    const id = results[0].id; // Obtiene el id del informe desde los resultados del procedimiento almacenado
-    const embedUrl = results[0].url; // Obtiene la URL del informe desde los resultados del procedimiento almacenado
-    const accessToken = results[0].accessToken; // Obtiene el accessToken desde los resultados del procedimiento almacenado
-
-    */
-    const id = "8618547a-09c8-43c8-bafb-c587547d567f"; // Obtiene el id del informe desde los resultados del procedimiento almacenado
-    const embedUrl = "https://app.powerbi.com/reportEmbed?reportId=8618547a-09c8-43c8-bafb-c587547d567f&groupId=4e41b8f3-ab04-4c78-b6e7-4cc81a41e8d5&w=2&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly9XQUJJLVBBQVMtMS1TQ1VTLXJlZGlyZWN0LmFuYWx5c2lzLndpbmRvd3MubmV0IiwiZW1iZWRGZWF0dXJlcyI6eyJtb2Rlcm5FbWJlZCI6dHJ1ZSwidXNhZ2VNZXRyaWNzVk5leHQiOnRydWV9fQ%3d%3d"; // Obtiene la URL del informe desde los resultados del procedimiento almacenado
-    const accessToken = 'hkgBZQMEAgEFADB3BgorBgEEAYI3AgEEoGkwZzAyBgor'; // Obtiene el accessToken desde los resultados del procedimiento almacenado
-    const apiUrl = `https://api.powerbi.com/v1.0/myorg/reports/${id}/GenerateToken`;
-
-
-    const reportDetails = {
-      reportId: id,
-      embedUrl: embedUrl,
-      accessToken: accessToken,
-      token : apiUrl
-    };
-
-    res.json(reportDetails);
-   
   });
-
- 
   
 
 module.exports = router;

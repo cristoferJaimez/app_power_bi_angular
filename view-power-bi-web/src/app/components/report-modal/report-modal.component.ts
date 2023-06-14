@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Inject } from '@angular/core';
-import {  MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PowerBiService } from '../../services/powerbi.service';
 
 @Component({
@@ -13,8 +14,9 @@ export class ReportModalComponent implements OnInit, OnDestroy {
 
   constructor(
     private powerBiService: PowerBiService,
+    private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: { reportId: number }
-  ) {}
+  ) { }
 
   ngOnInit() {
     const reportId = this.data.reportId.toString();
@@ -22,11 +24,14 @@ export class ReportModalComponent implements OnInit, OnDestroy {
       (embedConfig: any) => {
         this.embedConfig = embedConfig;
         console.log(this.embedConfig);
-        
         this.loadReport();
       },
       (error: any) => {
         console.error('Error al obtener la configuración de incrustación del informe', error);
+        this.snackBar.open('Error al obtener la configuración de incrustación del informe', 'Cerrar', {
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        });
       }
     );
   }
