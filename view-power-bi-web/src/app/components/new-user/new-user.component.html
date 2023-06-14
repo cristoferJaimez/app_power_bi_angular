@@ -1,0 +1,74 @@
+<div class="card-container">
+    <form [formGroup]="formulario" (ngSubmit)="save()">
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <!-- Primera fila -->
+        <mat-card>
+          <div class="form-row">
+            <div class="field-wrapper">
+              <mat-form-field appearance="outline" class="name-field">
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="nombre" autofocus>
+              </mat-form-field>
+            </div>
+  
+            <div class="field-wrapper">
+              <mat-form-field appearance="outline" class="password-field">
+                <mat-label>Contraseña</mat-label>
+                <input matInput formControlName="contraseña" type="password">
+              </mat-form-field>
+            </div>
+  
+            <div class="field-wrapper">
+              <mat-form-field appearance="outline" class="password-rep-field">
+                <mat-label>Repetir Contraseña</mat-label>
+                <input matInput formControlName="repetirContraseña" type="password">
+              </mat-form-field>
+            </div>
+          </div>
+  
+          <!-- Segunda fila -->
+          <div class="form-row">
+            <div class="field-wrapper">
+              <mat-form-field appearance="outline" class="url-field">
+                <mat-label>URL</mat-label>
+                <input matInput formControlName="url">
+              </mat-form-field>
+            </div>
+  
+            <div class="field-wrapper">
+              <mat-form-field appearance="outline" class="email-field">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email">
+              </mat-form-field>
+            </div>
+  
+            <div class="field-wrapper">
+              <mat-form-field appearance="outline" class="tipo-usuario-field">
+                <mat-label>Tipo de Usuario</mat-label>
+                <mat-select formControlName="tipoUsuario">
+                  <mat-option value="admin">Administrador</mat-option>
+                  <mat-option value="user">Usuario</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+  
+          <!-- Tercera fila -->
+          <div class="form-row">
+            <div class="field-wrapper">
+              <mat-form-field appearance="outline" class="descripcion-field">
+                <mat-label>Descripción</mat-label>
+                <textarea matInput formControlName="descripcion"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+  
+          <!-- Botón de guardar -->
+          <div class="button-row">
+            <button mat-raised-button color="primary" type="submit">Guardar</button>
+          </div>
+        </mat-card>
+      </div>
+    </form>
+  </div>
+  

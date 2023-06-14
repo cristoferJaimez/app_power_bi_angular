@@ -1,0 +1,35 @@
+.card-container {
+  margin: 20px;
+}
+
+mat-card {
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.field-wrapper {
+  flex-basis: 30%;
+}
+
+.name-field,
+.password-field,
+.password-rep-field,
+.url-field,
+.email-field,
+.tipo-usuario-field,
+.descripcion-field {
+  width: 100%;
+}
+
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}

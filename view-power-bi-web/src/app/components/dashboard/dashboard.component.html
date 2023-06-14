@@ -1,0 +1,44 @@
+<ng-container *ngIf="posts.length > 0; else noPosts">
+  <div class="card-container">
+    <mat-card class="card" *ngFor="let post of posts">
+      <div class="card-content-container">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="card-image icon">analytics</mat-icon>
+          <mat-card-title>{{ post.title }}</mat-card-title>
+          <mat-card-subtitle>
+            Fecha de publicación: {{ post.date_create | date }}
+          </mat-card-subtitle>
+        </mat-card-header>
+     
+        <mat-divider></mat-divider>
+      
+        <mat-card-content class="card-content">
+          <p>{{ truncateDescription(post.description) }}</p>
+          <p *ngIf="post.description.length > 100">
+            <a href="#" (click)="toggleDescription(post)">
+              Ver más
+            </a>
+          </p>
+        </mat-card-content>
+      </div>
+      
+      <mat-divider></mat-divider>
+      
+      <mat-card-actions class="actions">
+        <button (click)="openPowerBIReport(post.id)" mat-button color="primary">Abrir</button>
+      </mat-card-actions>
+      
+    </mat-card>
+  </div>
+</ng-container>
+
+
+<ng-template #noPosts>
+  <div class="empty-container">
+    <p>\(^Д^)/</p>
+    <div #animationContainer></div>
+    <p>No hay Informes disponibles</p>
+  </div>
+</ng-template>
+
+<div id="powerBiReportContainer"></div>

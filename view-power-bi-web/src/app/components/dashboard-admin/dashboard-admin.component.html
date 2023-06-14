@@ -1,0 +1,42 @@
+<div class="cards-container">
+  <div class="card">
+    <div class="card-content">
+      <div class="image-container">
+        <img src="https://www.close-upinternational.com/img/logo.svg" alt="Imagen de Publicaciones">
+      </div>
+      <mat-divider></mat-divider>
+      <mat-card-header>
+        <mat-card-title>Publicaciones</mat-card-title>
+      </mat-card-header>
+      <mat-card-actions class="button-container">
+        <button mat-icon-button>
+          <mat-icon>list_alt</mat-icon>
+        </button>
+        <button mat-icon-button (click)="openNewPostModal()">
+          <mat-icon>post_add</mat-icon>
+        </button>
+      </mat-card-actions>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-content">
+      <div class="image-container">
+        <img src="https://www.close-upinternational.com/img/logo.svg" alt="Imagen de Usuarios">
+      </div>
+      <mat-divider></mat-divider>
+      <mat-card-header>
+        <mat-card-title>Usuarios</mat-card-title>
+      </mat-card-header>
+      <mat-card-actions class="button-container">
+        <button mat-icon-button>
+          <mat-icon>person_search</mat-icon>
+        </button>
+        <button mat-icon-button (click)="openNewUserModal()">
+          <mat-icon>person_add</mat-icon>
+        </button>
+        
+      </mat-card-actions>
+    </div>
+  </div>
+</div>

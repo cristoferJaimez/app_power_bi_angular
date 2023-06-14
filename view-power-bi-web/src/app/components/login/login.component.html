@@ -1,0 +1,22 @@
+<div *ngIf="!isLoggedIn">
+    <div class="login-container">
+        <mat-card class="login-card mat-elevation-z2">
+            <form class="login-form">
+                <mat-form-field appearance="outline" class="input-field mat-form-field-sm">
+                    <mat-label>Usuario</mat-label>
+                    <input matInput [(ngModel)]="username" autocomplete="current-password" name="username" placeholder="Usuario">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="input-field mat-form-field-sm">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput [(ngModel)]="password"  autocomplete="current-password" name="password" type="password" placeholder="Contraseña">
+                </mat-form-field>
+                <mat-checkbox [(ngModel)]="rememberPassword" name="rememberPassword">Recordar contraseña</mat-checkbox>
+                <div class="login-buttons">
+                    <button mat-raised-button color="primary" (click)="login()">
+                      <mat-icon>send</mat-icon> Iniciar sesión
+                    </button>
+                </div>       
+            </form>
+        </mat-card>
+    </div>
+  </div>

@@ -1,0 +1,76 @@
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  margin: 10px;
+  padding: 5px; /* Ajusta el valor del padding según tus preferencias */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 23%; /* Ajusta el ancho de las tarjetas según tus preferencias */
+  max-width: 23%;
+}
+
+.card-content-container {
+  height: 200px; /* Ajusta la altura fija según tus preferencias */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-content {
+  text-align: justify;
+}
+
+.small-text {
+  font-size: 12px;
+  color: #888;
+}
+
+@media (max-width: 959px) {
+  .card {
+    width: 46%; /* Ajusta el ancho de las tarjetas según tus preferencias */
+    max-width: 46%;
+  }
+}
+
+.icon {
+  font-size: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-image {
+  width: 100px;
+  height: 100px;
+  background-color: #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.expanded-description {
+  overflow: auto;
+  max-height: none;
+}
+
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.empty-container p:first-child {
+  font-size: 24px;
+  margin-bottom: 10px;
+}

@@ -1,0 +1,63 @@
+.card-container {
+    margin: 20px;
+  }
+  
+  .card-title {
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+  
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .lab-field {
+    width: 45%;
+  }
+  
+  .title-field {
+    width: 45%;
+  }
+  
+  .description-field {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .report-field {
+    width: 40%;
+  }
+  
+  .button-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .divider {
+    width: 90%;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.12);
+    margin: 10px auto;
+  }
+  
+  .option-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .option-image {
+    width: 24px; /* Ajusta el tamaño de la imagen según tus necesidades */
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 8px; /* Ajusta el margen derecho según tus necesidades */
+  }
+  
+  .option-text {
+    font-weight: bold; /* Ajusta el estilo del texto según tus necesidades */
+  }
+  
