@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef  } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LogoutService } from '../../services/logout.service';
@@ -7,15 +7,21 @@ import { MatDialog,  MatDialogConfig  } from '@angular/material/dialog';
 import { ReportModalComponent } from '../report-modal/report-modal.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReportModalService } from '../../services/report-credentials.service';
-import * as pbi from 'powerbi-client';
 import { PowerBiService } from '../../services/powerbi.service';
+import { AnimationItem } from 'lottie-web';
+import * as lottie from 'lottie-web';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit{
+
+  @ViewChild('animationContainer') animationContainer!: ElementRef;
+
+  animationItem!: AnimationItem;
+
   isLoggedIn: boolean = false;
   posts: any[] = [];
   description: string | null = "";
@@ -35,6 +41,8 @@ export class DashboardComponent implements OnInit {
     this.logoutService.logout$.subscribe(() => {
       this.verifyToken();
     });
+
+   
 
     this.authService.isLoggedIn$.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
@@ -159,7 +167,21 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  
+  ngAfterViewInit() {
+    const animationPath = './assets/images/19314-sequis-empty-state.json'; // Verifica la ruta del archivo JSON de la animación
+
+    // Opciones de configuración de la animación (ajusta según tus necesidades)
+    const animationOptions: lottie.AnimationConfigWithPath = {
+      container: this.animationContainer.nativeElement,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: animationPath
+    };
+
+    // Cargar la animación utilizando lottie.default.loadAnimation()
+    this.animationItem = lottie.default.loadAnimation(animationOptions);
+  }
   
   
 }

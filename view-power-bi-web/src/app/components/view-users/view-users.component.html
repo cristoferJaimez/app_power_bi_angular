@@ -1,0 +1,35 @@
+<div id="container">
+    <div *ngIf="users.length > 0; else nousersMessage">
+        <div class="user-container" *ngFor="let user of users | slice: pageIndex * pageSize : (pageIndex + 1) * pageSize">
+            <img class="user-image" [src]="user.image" alt="user Image">
+            <div class="user-details">
+                <h3>{{ user.company }}</h3>
+                <div class="user-date">{{ user.date | date }}</div>
+                <p class="user-company">{{ user.title }}</p>
+            </div>
+            <div class="user-actions">
+                <button (click)="editaruser(user.id)" class="edit-button">
+                    <span class="material-icons">edit</span>
+                </button>
+                <button (click)="editaruser(user.id)" class="view-button">
+                    <span class="material-icons">visibility</span>
+                </button>
+                <button (click)="eliminaruser(user.id)" class="delete-button">
+                    <span class="material-icons">delete_forever</span>
+                </button>
+            </div>
+        </div>
+
+        <mat-paginator [length]="totalusers" [pageSize]="pageSize" [pageIndex]="pageIndex"
+            (page)="cambiarPagina($event)"></mat-paginator>
+    </div>
+
+    <ng-template #nousersMessage>
+        <div class="no-users-message-container">
+            <div #animationContainer id="animationContainer"></div>
+            <div class="no-users-message">
+                No hay Usuarios disponibles.
+              </div>             
+        </div>
+    </ng-template>
+</div>

@@ -74,3 +74,32 @@
   font-size: 24px;
   margin-bottom: 10px;
 }
+
+#animationContainer {
+  width: 400px;
+  height: 400px;
+}
+
+.no-posts-message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 70vh;
+}
+
+.no-posts-message {
+  color: #999; /* Color gris */
+  font-family: Arial, sans-serif; /* Estilo de fuente */
+  font-size: 24px; /* Tamaño de fuente */
+  letter-spacing: 1px; /* Espaciado entre letras */
+  text-align: center; /* Alineación centrada */
+  margin-top: 5px; /* Espacio entre el mensaje y el contenedor de animación */
+}
+
+.no-posts-message.top {
+  margin-bottom: 5px; /* Espacio entre el mensaje superior y el contenedor de animación */
+}
+
+.no-posts-message.bottom {
+  margin-top: 5px; /* Espacio entre el mensaje inferior y el contenedor de animación */
+}

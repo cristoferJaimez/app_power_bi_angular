@@ -1,0 +1,137 @@
+#container {
+    padding: 20px;
+}
+
+.post-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.post-details {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.post-details h3 {
+    margin-bottom: 5px;
+}
+
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f7f7f7;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.post-date {
+    font-size: 12px;
+    color: #666;
+}
+
+.post-company {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.post-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.delete-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    margin-right: 6px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: #d32f2f;
+}
+
+.edit-button {
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.edit-button:hover {
+    background-color: #1976d2;
+}
+
+.view-button {
+    background-color: #19c37d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.view-button:hover {
+    background-color: #15a569;
+}
+
+
+.no-posts-message-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 70vh;
+  }
+  
+  .no-posts-message {
+    color: #999; /* Color gris */
+    font-family: Arial, sans-serif; /* Estilo de fuente */
+    font-size: 24px; /* Tamaño de fuente */
+    letter-spacing: 1px; /* Espaciado entre letras */
+    text-align: center; /* Alineación centrada */
+    margin-top: 5px; /* Espacio entre el mensaje y el contenedor de animación */
+  }
+  
+  .no-posts-message.top {
+    margin-bottom: 5px; /* Espacio entre el mensaje superior y el contenedor de animación */
+  }
+  
+  .no-posts-message.bottom {
+    margin-top: 5px; /* Espacio entre el mensaje inferior y el contenedor de animación */
+  }
+  
+  
+
+.no-posts-message {
+    text-align: center;
+}
+
+.view-button,
+.edit-button,
+.delete-button {
+    margin-right: 5px;
+}
+
+#animationContainer {
+    width: 400px;
+    height: 400px;
+  }

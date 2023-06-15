@@ -9,14 +9,14 @@
         <mat-card-title>Publicaciones</mat-card-title>
       </mat-card-header>
       <mat-card-actions class="button-container">
-        <button mat-icon-button>
+        <button mat-icon-button (click) ="openViewPostModal()">
           <mat-icon>list_alt</mat-icon>
         </button>
         <button mat-icon-button (click)="openNewPostModal()">
           <mat-icon>post_add</mat-icon>
         </button>
       </mat-card-actions>
-    </div>
+    </div> 
   </div>
 
   <div class="card">
@@ -29,7 +29,7 @@
         <mat-card-title>Usuarios</mat-card-title>
       </mat-card-header>
       <mat-card-actions class="button-container">
-        <button mat-icon-button>
+        <button mat-icon-button  (click)="openViewUserModal()">
           <mat-icon>person_search</mat-icon>
         </button>
         <button mat-icon-button (click)="openNewUserModal()">

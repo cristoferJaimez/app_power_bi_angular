@@ -27,6 +27,10 @@
   import { NewUserComponent } from '../app/components/new-user/new-user.component';
   import { NewPostComponent } from '../app/components/new-post/new-post.component';
   import { ModalViewsComponent } from '../app/components/modal-views/modal-views.component';
+import { ViewPostComponent } from './components/view-post/view-post.component';
+import { ViewUsersComponent } from './components/view-users/view-users.component';
+import { Error404Component } from './components/error404/error404.component';
+import { Error500Component } from './components/error500/error500.component';
 
 
   @NgModule({
@@ -38,6 +42,10 @@
       NewUserComponent,
       NewPostComponent,
       ModalViewsComponent,
+      ViewPostComponent,
+      ViewUsersComponent,
+      Error404Component,
+      Error500Component,
       
     ],
     imports: [

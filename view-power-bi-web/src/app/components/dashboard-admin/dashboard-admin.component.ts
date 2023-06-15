@@ -9,8 +9,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReportModalService } from '../../services/report-credentials.service';
 import { NewUserComponent } from '../new-user/new-user.component';
 import { NewPostComponent } from '../new-post/new-post.component';
-
-
+import { ViewPostComponent } from '../view-post/view-post.component'
+import { ViewUsersComponent } from '../view-users/view-users.component'
+ 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard-admin.component.html',
@@ -100,6 +101,46 @@ export class DashboardAdminComponent implements OnInit {
       // Aquí puedes realizar acciones después de que se cierre el modal, si es necesario
     });
   }
+  
+
+  openViewUserModal() {
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+  
+    // Calcula el ancho y alto de la modal en función del tamaño de la ventana y el margen que deseas dejar
+    const modalWidth = windowWidth * 0.8; // Por ejemplo, ocupa el 80% del ancho de la ventana
+    const modalHeight = windowHeight * 0.7; // Por ejemplo, ocupa el 80% del alto de la ventana
+  
+    const dialogRef = this.dialog.open(ViewUsersComponent, {
+      width: `${modalWidth}px`,
+      height: `${modalHeight}px`,
+      // También puedes ajustar otras opciones de la modal según tus necesidades
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      // Aquí puedes realizar acciones después de que se cierre el modal, si es necesario
+    });
+  }
+
+  openViewPostModal() {
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+  
+    // Calcula el ancho y alto de la modal en función del tamaño de la ventana y el margen que deseas dejar
+    const modalWidth = windowWidth * 0.8; // Por ejemplo, ocupa el 80% del ancho de la ventana
+    const modalHeight = windowHeight * 0.7; // Por ejemplo, ocupa el 80% del alto de la ventana
+  
+    const dialogRef = this.dialog.open(ViewPostComponent, {
+      width: `${modalWidth}px`,
+      height: `${modalHeight}px`,
+      // También puedes ajustar otras opciones de la modal según tus necesidades
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      // Aquí puedes realizar acciones después de que se cierre el modal, si es necesario
+    });
+  }
+  
   
 
   

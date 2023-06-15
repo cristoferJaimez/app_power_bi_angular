@@ -34,11 +34,12 @@
 
 
 <ng-template #noPosts>
-  <div class="empty-container">
-    <p>\(^Д^)/</p>
-    <div #animationContainer></div>
-    <p>No hay Informes disponibles</p>
-  </div>
+  <div class="no-posts-message-container">
+    <div #animationContainer id="animationContainer"></div>
+    <div class="no-posts-message">
+        No hay publicaciones disponibles.
+      </div>             
+</div>
 </ng-template>
 
 <div id="powerBiReportContainer"></div>
