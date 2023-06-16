@@ -92,11 +92,26 @@ router.get('/powerbi-report-details/:id', async (req, res) => {
       try {
         const tokenResponse = await credential.getToken("https://analysis.windows.net/powerbi/api/.default");
         //console.log('Token obtenido:', tokenResponse.token); // Imprime el token en el registro
+
+        console.log(tokenResponse.token);
+
+        // Obtener información del usuario autenticado
+        const userApiResponse = await axios.get('https://graph.microsoft.com/v1.0/me', { headers: { Authorization: `Bearer ${tokenResponse.token}` } });
+        const user = userApiResponse.data;
+
+        // Mostrar los datos del usuario en la consola
+        console.log('Datos del usuario:');
+        console.log('ID:', user.id);
+        console.log('Nombre:', user.displayName);
+        console.log('Email:', user.mail);
+
+
         const reportDetails = {
           reportId: id_report,
           embedUrl: embedUrl,
           accessToken: tokenResponse.token,
         };
+
 
         // Utiliza el accessToken para acceder a tus informes de Power BI
 
@@ -111,6 +126,46 @@ router.get('/powerbi-report-details/:id', async (req, res) => {
     res.status(500).send('Error en la ruta /powerbi-report-details');
   }
 });
+
+
+router.post('/get-token-and-url', async (req, res) => {
+  try {
+    const scope = 'https://analysis.windows.net/powerbi/api/.default';
+    const tokenEndpoint = `https://login.microsoftonline.com/${process.env.AZURE_TENANT_ID}/oauth2/v2.0/token`;
+    
+    const requestBody = new URLSearchParams();
+    requestBody.append('client_id', process.env.AZURE_CLIENT_ID);
+    requestBody.append('client_secret', process.env.AZURE_CLIENT_SECRET);
+    requestBody.append('grant_type', 'client_credentials');
+    requestBody.append('scope', scope);
+
+    const response = await axios.post(tokenEndpoint, requestBody);
+    const token = response.data.access_token;
+   
+    const headers = {
+      Authorization: `Bearer ${token}`
+    };
+
+    const reportId = "f71dd63e-24eb-4f63-b817-6fd80f8a950";
+    const apiUrl = `https://api.powerbi.com/v1.0/myorg/reports/${reportId}`;
+
+    try {
+      const reportResponse = await axios.get(apiUrl, { headers });
+      const embedUrl = reportResponse.data.embedUrl;
+      console.log(reportResponse);
+      res.json({ token, embedUrl });
+    } catch (error) {
+      console.error('Error al obtener la URL del informe:', error.message);
+      res.status(500).json({ error: 'Error al obtener la URL del informe', details: error });
+    }
+  } catch (error) {
+    console.error('Error al obtener el token:', error.message);
+    res.status(500).json({ error: 'Error al obtener el token', details: error.response.data });
+  }
+});
+
+
+
 
 
 module.exports = router;

@@ -17,8 +17,7 @@ export class PowerBiService {
     const url = `http://192.1.1.104:3000/powerbi-report-details/${reportId}`;
     return this.http.get(url);
 
-
-
+   
   }
 
   loadReport(embedConfig: IEmbedConfiguration, element: HTMLElement) {
@@ -29,9 +28,11 @@ export class PowerBiService {
       accessToken: embedConfig.accessToken,
       tokenType: pbi.models.TokenType.Embed,
       permissions: pbi.models.Permissions.All,
+      viewMode: pbi.models.ViewMode.View,
       settings: {
-        filterPaneEnabled: false,
-        navContentPaneEnabled: true
+        filterPaneEnabled: true,
+        navContentPaneEnabled: true,
+        authoringHintsEnabled: true
       }
     };
 
