@@ -7,6 +7,7 @@ require('dotenv').config();
 const connection = require('../data/conex'); // Importa la conexión a la base de datos
 const axios = require('axios');
 const https = require('https');
+const { ClientSecretCredential } = require("@azure/identity");
 
 
 // Ruta del login para iniciar session
@@ -69,7 +70,7 @@ router.get('/verify-token', authenticateToken, (req, res) => {
 router.get('/powerbi-report-details/:id', async (req, res) => {
   try {
     const reportId = req.params.id;
-    console.log(reportId);
+    //console.log(reportId);
     const query = `CALL select_post(?)`;
 
     connection.query(query, [reportId], async (err, results) => {
@@ -81,41 +82,28 @@ router.get('/powerbi-report-details/:id', async (req, res) => {
 
       const id_report = results[0][0].id_report; // Obtiene el id del informe desde los resultados del procedimiento almacenado
       const embedUrl = results[0][0].url_report; // Obtiene la URL del informe desde los resultados del procedimiento almacenado
-      //const accessToken = results[0][0].toke_report; // Obtiene el accessToken desde los resultados del procedimiento almacenado
 
-      // Aquí puedes realizar las acciones adicionales con los resultados obtenidos
-      const clientId = process.env.CLIENT_ID;
-      const clientSecret = process.env.CLIENT_SECRET;
-      const resource = 'https://analysis.windows.net/powerbi/api'; // Puede variar dependiendo del recurso al que quieras acceder
+      const credential = new ClientSecretCredential(
+        process.env.AZURE_TENANT_ID,
+        process.env.AZURE_CLIENT_ID,
+        process.env.AZURE_CLIENT_SECRET
+      );
 
       try {
-        const response = await axios.post('https://login.microsoftonline.com/common/oauth2/token', {
-          grant_type: 'client_credentials',
-          client_id: clientId,
-          client_secret: clientSecret,
-          resource: resource
-        });
-
-        const accessToken = response.data.access_token;
+        const tokenResponse = await credential.getToken("https://analysis.windows.net/powerbi/api/.default");
+        //console.log('Token obtenido:', tokenResponse.token); // Imprime el token en el registro
         const reportDetails = {
           reportId: id_report,
           embedUrl: embedUrl,
-          accessToken: accessToken,
+          accessToken: tokenResponse.token,
         };
+
         // Utiliza el accessToken para acceder a tus informes de Power BI
 
         res.json(reportDetails);
       } catch (error) {
         console.error('Error al obtener el token:', error.message);
-        const reportDetails = {
-          reportId: id_report,
-          embedUrl: embedUrl,
-          accessToken: "hhh_89",
-        };
-        // Utiliza el accessToken para acceder a tus informes de Power BI
-
-        res.json(reportDetails);
-        //res.status(500).send('Error al obtener el token');
+        res.status(500).send('Error al obtener el token');
       }
     });
   } catch (error) {
@@ -123,7 +111,6 @@ router.get('/powerbi-report-details/:id', async (req, res) => {
     res.status(500).send('Error en la ruta /powerbi-report-details');
   }
 });
-
 
 
 module.exports = router;

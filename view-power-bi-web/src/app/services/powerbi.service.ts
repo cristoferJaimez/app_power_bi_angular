@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Report, models, IEmbedConfiguration } from 'powerbi-client';
 import { HttpClient } from '@angular/common/http';
-
+import * as pbi from 'powerbi-client';
 declare const powerbi: any;
 
 @Injectable({
@@ -14,7 +14,7 @@ export class PowerBiService {
 
   getEmbedConfig(reportId: any) {
    
-    const url = `http://localhost:3000/powerbi-report-details/${reportId}`;
+    const url = `http://192.1.1.104:3000/powerbi-report-details/${reportId}`;
     return this.http.get(url);
 
 
@@ -27,9 +27,10 @@ export class PowerBiService {
       id: embedConfig.id,
       embedUrl: embedConfig.embedUrl,
       accessToken: embedConfig.accessToken,
-      permissions: models.Permissions.All,
+      tokenType: pbi.models.TokenType.Embed,
+      permissions: pbi.models.Permissions.All,
       settings: {
-        filterPaneEnabled: true,
+        filterPaneEnabled: false,
         navContentPaneEnabled: true
       }
     };
