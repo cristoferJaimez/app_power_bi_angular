@@ -66,53 +66,65 @@ router.get('/verify-token', authenticateToken, (req, res) => {
 
 
 router.get('/obtener-informes/:id', async (req, res) => {
-
   try {
-
     const reportId = req.params.id;
-    //console.log(reportId);
     const query = `CALL select_post(?)`;
 
     connection.query(query, [reportId], async (err, results) => {
       if (err || results.length === 0) {
-        console.log(err);
-        // Error al llamar al procedimiento almacenado o informe no encontrado
         return res.status(404).json({ message: 'Informe no encontrado' });
       }
 
-      id_report = results[0][0].id_report; // Obtiene el id del informe desde los resultados del procedimiento almacenado  
-    });
+      const id_report = results[0][0].id_report;
+      let reports = [];
 
-    const tokenEndpoint = `https://login.microsoftonline.com/${process.env.AZURE_TENANT_ID}/oauth2/v2.0/token`;
-    const resource = 'https://analysis.windows.net/powerbi/api';
+      let accessToken; // Mover la declaración de accessToken aquí
 
-    const params = {
-      grant_type: 'client_credentials',
-      client_id: process.env.AZURE_CLIENT_ID,
-      client_secret: process.env.AZURE_CLIENT_SECRET,
-      scope: `${resource}/.default`,
-    };
+      try {
+        const tokenEndpoint = `https://login.microsoftonline.com/${process.env.AZURE_TENANT_ID}/oauth2/v2.0/token`;
+        const resource = 'https://analysis.windows.net/powerbi/api';
 
-    const response = await axios.post(tokenEndpoint, qs.stringify(params), {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        const params = {
+          grant_type: 'client_credentials',
+          client_id: process.env.AZURE_CLIENT_ID,
+          client_secret: process.env.AZURE_CLIENT_SECRET,
+          scope: `${resource}/.default`,
+        };
+
+        const response = await axios.post(tokenEndpoint, qs.stringify(params), {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        });
+
+        accessToken = response.data.access_token; // Asignar el valor del accessToken aquí
+
+        console.log(accessToken);
+
+        const apiUrl = 'https://api.powerbi.com/v1.0/myorg/reports';
+        const reportsResponse = await axios.get(apiUrl, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        });
+
+        reports = reportsResponse.data.value;
+      } catch (error) {
+        console.error('Error obteniendo los informes de Power BI:', error.message);
       }
+
+      const filteredReports = reports.filter(report => report.id === id_report);
+      const embedUrl = filteredReports.length > 0 ? filteredReports[0].embedUrl :  `https://app.powerbi.com/reportEmbed?reportId=5598d4ad-17e7-45fa-b322-49a50157b352&groupId=7dfb8435-e327-493f-887b-a8cac1da371f `; // Obtener la URL dinámica del informe si existe, de lo contrario, dejarla vacía
+
+      const responseObj = {
+        //reports: filteredReports,
+        id:id_report,
+        embedUrl,
+        accessToken: accessToken // Incluir el token de acceso en el objeto de respuesta
+      };
+
+      res.json(responseObj);
     });
-
-    const accessToken = response.data.access_token;
-
-    const apiUrl = 'https://api.powerbi.com/v1.0/myorg/reports';
-    const reportsResponse = await axios.get(apiUrl, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    });
-
-
-    //lista de reportes
-    const reports = reportsResponse.data.value;
-    
-    res.json({ reports, reportUrl });
   } catch (error) {
     console.error('Error:', error.message);
 
@@ -121,9 +133,15 @@ router.get('/obtener-informes/:id', async (req, res) => {
       console.error('Response Data:', error.response);
     }
 
-    res.status(500).json({ error: 'Error al obtener los informes de Power BI' });
+    const defaultReport = { id: '', name: 'Informe no disponible' };
+    const defaultResponse = { reports: [defaultReport], embedUrl: '' };
+
+    res.status(error.response ? error.response.status : 500).json(defaultResponse);
   }
 });
+
+
+
 
 
 module.exports = router;

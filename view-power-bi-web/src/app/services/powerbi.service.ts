@@ -14,7 +14,7 @@ export class PowerBiService {
 
   getEmbedConfig(reportId: any) {
    
-    const url = `http://192.1.1.104:3000/powerbi-report-details/${reportId}`;
+    const url = `http://localhost:3000/obtener-informes/${reportId}`;
     return this.http.get(url);
 
    
@@ -24,7 +24,7 @@ export class PowerBiService {
     const config: models.IEmbedConfiguration = {
       type: 'report',
       id: embedConfig.id,
-      embedUrl: embedConfig.embedUrl,
+      embedUrl: embedConfig.embedUrl, // Asegúrate de proporcionar la URL de inserción aquí
       accessToken: embedConfig.accessToken,
       tokenType: pbi.models.TokenType.Embed,
       permissions: pbi.models.Permissions.All,
@@ -36,10 +36,12 @@ export class PowerBiService {
       }
     };
 
+    console.log(config);
     
-    
+  
     this.report = powerbi.embed(element, config);
-
+  
+  
     this.report.off("loaded");
     this.report.off("rendered");
     this.report.off("error");
