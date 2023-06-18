@@ -23,6 +23,7 @@
     "jsonwebtoken": "^9.0.0",
     "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",
+    "passport-azure-ad": "^4.3.5",
     "powerbi-client": "^2.22.3",
     "powerbi-client-angular": "^3.0.5"
   },
