@@ -69,26 +69,33 @@ router.get('/obtener-informes/:id', async (req, res) => {
   try {
     const reportId = req.params.id;
     const query = `CALL select_post(?)`;
+ 
 
     connection.query(query, [reportId], async (err, results) => {
       if (err || results.length === 0) {
         return res.status(404).json({ message: 'Informe no encontrado' });
       }
 
-      const id_report = results[0][0].id_report;
-      let reports = [];
-
-      let accessToken; // Mover la declaración de accessToken aquí
+      const id_report_db = results[0][0].id_report;
+      const id_grupo_db  = results[0][0].url_report;
+  
 
       try {
-        const tokenEndpoint = `https://login.microsoftonline.com/${process.env.AZURE_TENANT_ID}/oauth2/v2.0/token`;
-        const resource = 'https://analysis.windows.net/powerbi/api';
+        //AZ APP ADD
+        const tokenEndpoint = `https://login.microsoftonline.com/common/oauth2/token `;
+        const groupPowerBi = `https://api.powerbi.com/v1.0/myorg/groups`;
+        
+      
+        const pw = process.env.AZ_PASSWORD;
 
         const params = {
-          grant_type: 'client_credentials',
-          client_id: process.env.AZURE_CLIENT_ID,
-          client_secret: process.env.AZURE_CLIENT_SECRET,
-          scope: `${resource}/.default`,
+          resource:process.env.RESOURCE,
+          scope:process.env.SCOPE,
+          username:"wvega@close-upinternational.com.co",
+          password:pw,
+          client_id:process.env.AZURE_CLIENT_ID,
+          client_secret:process.env.AZURE_CLIENT_SECRET,
+          grant_type:process.env.GRANT_TYPE
         };
 
         const response = await axios.post(tokenEndpoint, qs.stringify(params), {
@@ -97,33 +104,70 @@ router.get('/obtener-informes/:id', async (req, res) => {
           }
         });
 
-        accessToken = response.data.access_token; // Asignar el valor del accessToken aquí
 
-        console.log(accessToken);
-
-        const apiUrl = 'https://api.powerbi.com/v1.0/myorg/reports';
-        const reportsResponse = await axios.get(apiUrl, {
+        // buscar grupo
+        const powerbi_group = await axios.get(groupPowerBi,{
           headers: {
-            Authorization: `Bearer ${accessToken}`
+            'Authorization': `Bearer ${response.data.access_token}` 
           }
         });
 
-        reports = reportsResponse.data.value;
+        //logica para buscar grupo
+        let id_group = "";
+        powerbi_group.data.value.forEach( e =>{
+          if(id_grupo_db == e.id){
+              id_group = e.id;
+          }
+        });
+        
+        //fin de logica
+      //buscar reportes
+      const powerbi_rep_url =  `https://api.powerbi.com/v1.0/myorg/groups/${id_group}/reports? `
+
+      const powerbi_reports = await axios.get(powerbi_rep_url,{
+          headers: {
+            'Authorization': `Bearer ${response.data.access_token}` 
+          }
+        });
+        
+        let powerbi_report = "";
+        let embedUrl ="";
+        powerbi_reports.data.value.forEach(e =>{
+          if(id_report_db == e.id){
+            powerbi_report = e.id;
+            embedUrl = e.embedUrl;
+          }
+        });
+        
+
+        let accessToken = "";
+        //buscar token para el reporte 
+        const body = {
+          accessLevel: 'view'
+        };
+      
+        const token_url = `https://api.powerbi.com/v1.0/myorg/groups/${id_group}/reports/${powerbi_report}/Generatetoken`
+
+        const power_token = await axios.post(token_url, body, {
+          headers:{
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${response.data.access_token}` 
+          }
+        });
+
+ 
+        res.status(200).json({
+          id:powerbi_report,
+          embedUrl:embedUrl,
+          accessToken:power_token.data.token
+        })
+       
+        
       } catch (error) {
-        console.error('Error obteniendo los informes de Power BI:', error.message);
+        console.error('Error obteniendo los informes de Power BI:', error.response);
       }
 
-      const filteredReports = reports.filter(report => report.id === id_report);
-      const embedUrl = filteredReports.length > 0 ? filteredReports[0].embedUrl :  `https://app.powerbi.com/reportEmbed?reportId=5598d4ad-17e7-45fa-b322-49a50157b352&groupId=7dfb8435-e327-493f-887b-a8cac1da371f `; // Obtener la URL dinámica del informe si existe, de lo contrario, dejarla vacía
-
-      const responseObj = {
-        //reports: filteredReports,
-        id:id_report,
-        embedUrl,
-        accessToken: accessToken // Incluir el token de acceso en el objeto de respuesta
-      };
-
-      res.json(responseObj);
+      
     });
   } catch (error) {
     console.error('Error:', error.message);
@@ -139,8 +183,6 @@ router.get('/obtener-informes/:id', async (req, res) => {
     res.status(error.response ? error.response.status : 500).json(defaultResponse);
   }
 });
-
-
 
 
 

@@ -17,13 +17,21 @@ RUN npm install -g @angular/cli
 COPY ./src ./src
 
 # Compila la aplicación de Angular
-RUN npm run build  
+RUN ng build
 
 # Usa una imagen base de Nginx para el entorno de producción
 FROM nginx:latest
 
 # Copia los archivos compilados de la aplicación de Angular al directorio de Nginx
-COPY --from=builder /app/dist/view-power-bi-web /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Elimina la configuración de Nginx por defecto
+#RUN rm /etc/nginx/conf.d/default.conf
+
+
+# Copia tu archivo de configuración personalizada de Nginx
+#COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+
 
 # Expone el puerto en el que se ejecuta Nginx (por defecto, el puerto 80)
 EXPOSE 80

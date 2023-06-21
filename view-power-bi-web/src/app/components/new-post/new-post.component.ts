@@ -41,7 +41,7 @@ export class NewPostComponent implements OnInit {
       })
     };
 
-    const url = 'http://localhost:3000/list-labs'; // Actualiza la URL según tu backend
+    const url = 'http://192.1.1.104:3000/list-labs'; // Actualiza la URL según tu backend
 
     // Llamada al servicio para obtener los datos del procedimiento almacenado
     this.http.get<any[]>(url, httpOptions).subscribe(
@@ -94,11 +94,12 @@ export class NewPostComponent implements OnInit {
         this.focusOnField('reportURL');
         return;
       }
+      /*
       if (!reportToken) {
         this.showSnackBarError('El campo Token del reporte es obligatorio');
         this.focusOnField('reportToken');
         return;
-      }
+      }*/
   
       const formData = {
         usuario_id: lab,
@@ -122,7 +123,7 @@ export class NewPostComponent implements OnInit {
 
 
       // Enviar los datos del formulario al servidor Express
-      this.http.post<any>('http://localhost:3000/guardar-post', formData, httpOptions).subscribe(
+      this.http.post<any>('http://192.1.1.104:3000/guardar-post', formData, httpOptions).subscribe(
         response => {
           console.log('Formulario guardado exitosamente:', response);
           this.form.reset();

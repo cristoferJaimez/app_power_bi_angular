@@ -13,18 +13,15 @@ export class PowerBiService {
   constructor(private http: HttpClient) { }
 
   getEmbedConfig(reportId: any) {
-   
-    const url = `http://localhost:3000/obtener-informes/${reportId}`;
+    const url = `http://192.1.1.104:3000/obtener-informes/${reportId}`;
     return this.http.get(url);
-
-   
   }
 
-  loadReport(embedConfig: IEmbedConfiguration, element: HTMLElement) {
+  loadReport(embedConfig: any, element: HTMLElement) {
     const config: models.IEmbedConfiguration = {
       type: 'report',
       id: embedConfig.id,
-      embedUrl: embedConfig.embedUrl, // Asegúrate de proporcionar la URL de inserción aquí
+      embedUrl: embedConfig.embedUrl,
       accessToken: embedConfig.accessToken,
       tokenType: pbi.models.TokenType.Embed,
       permissions: pbi.models.Permissions.All,
@@ -36,11 +33,9 @@ export class PowerBiService {
       }
     };
 
-    console.log(config);
+    //console.log(config);
     
-  
     this.report = powerbi.embed(element, config);
-  
   
     this.report.off("loaded");
     this.report.off("rendered");

@@ -30,11 +30,11 @@
                 </mat-form-field>
                 <div style="width: 7px"></div> <!-- Espacio entre los campos -->
                 <mat-form-field class="report-field" floatLabel="always">
-                    <input matInput placeholder="URL del reporte" formControlName="reportURL">
+                    <input matInput placeholder="ID del grupo del reporte" formControlName="reportURL">
                 </mat-form-field>
                 <div style="width: 7px"></div> <!-- Espacio entre los campos -->
-                <mat-form-field class="report-field" floatLabel="always">
-                    <input matInput placeholder="Token del reporte" formControlName="reportToken">
+                <mat-form-field class="report-field" floatLabel="always" style="visibility: hidden;">
+                    <input matInput placeholder="Token del reporte" value="vacio" formControlName="reportToken">
                 </mat-form-field>
             </div>
         </form>
