@@ -141,8 +141,8 @@ export class DashboardComponent implements OnInit, AfterViewInit{
   openPowerBIReport(id: number) {
       
     const dialogRef = this.dialog.open(ReportModalComponent, {
-      width: '1600px',
-      height: '700px',
+      width: '100%',
+      height: '100%',
       data: { reportId: id },
     });
   
@@ -158,8 +158,8 @@ export class DashboardComponent implements OnInit, AfterViewInit{
 
   openReportModal() {
     const dialogRef = this.dialog.open(ReportModalComponent, {
-      width: '1200px',
-      data: {},
+      //width: '1900px',
+      //data: {},
     });
 
     dialogRef.afterClosed().subscribe((result) => {

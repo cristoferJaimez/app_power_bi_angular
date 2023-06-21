@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Inject, Renderer2 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PowerBiService } from '../../services/powerbi.service';
@@ -15,6 +15,7 @@ export class ReportModalComponent implements OnInit, OnDestroy {
   constructor(
     private powerBiService: PowerBiService,
     private snackBar: MatSnackBar,
+    private renderer: Renderer2,
     @Inject(MAT_DIALOG_DATA) public data: { reportId: number }
   ) { }
 
@@ -43,6 +44,8 @@ export class ReportModalComponent implements OnInit, OnDestroy {
 
   loadReport() {
     const element = this.reportContainer.nativeElement;
+    //this.renderer.setStyle(element, 'width', '100vw');
+    //this.renderer.setStyle(element, 'height', '100vh');
     this.powerBiService.loadReport(this.embedConfig, element);
   }
 }
