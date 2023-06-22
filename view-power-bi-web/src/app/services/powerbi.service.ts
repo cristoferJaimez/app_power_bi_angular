@@ -13,7 +13,7 @@ export class PowerBiService {
   constructor(private http: HttpClient) { }
 
   getEmbedConfig(reportId: any) {
-    const url = `http://localhost:3000/obtener-informes/${reportId}`;
+    const url = `http://192.1.1.104:3000/obtener-informes/${reportId}`;
     return this.http.get(url);
   }
 

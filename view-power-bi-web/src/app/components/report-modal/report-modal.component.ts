@@ -24,7 +24,7 @@ export class ReportModalComponent implements OnInit, OnDestroy {
     this.powerBiService.getEmbedConfig(reportId).subscribe(
       (embedConfig: any) => {
         this.embedConfig = embedConfig;
-        console.log(this.embedConfig);
+        //console.log(this.embedConfig);
         this.loadReport();
       },
       (error: any) => {

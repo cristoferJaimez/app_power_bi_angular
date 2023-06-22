@@ -31,7 +31,7 @@ export class LoginComponent {
 
    
 
-    this.http.post('http://localhost:3000/login/', { username: this.username, password: this.password }).subscribe(
+    this.http.post('http://192.1.1.104:3000/login/', { username: this.username, password: this.password }).subscribe(
       (response: any) => {
         const token = response.token;
         const id_user = response.usuarioId;
