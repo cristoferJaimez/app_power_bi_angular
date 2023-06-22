@@ -1,3 +1,7 @@
+<button mat-button class="close-button" (click)="closeModal()">
+    <mat-icon>close</mat-icon>
+  </button>
+  
 <mat-card class="card-container">
     <mat-card-title class="card-title">Crear nuevo reporte</mat-card-title>
 
@@ -13,11 +17,12 @@
                             <span class="option-text">{{ option.viewValue | uppercase }}</span>
                           </span>
                         </mat-option>
-                      </mat-select>
-                      
+                      </mat-select> 
+                       
                       
                 </mat-form-field>
-                <mat-form-field class="title-field" floatLabel="always">
+                
+                <mat-form-field  class="title-field" floatLabel="always">
                     <input matInput placeholder="Título" formControlName="title">
                 </mat-form-field>
             </div>
@@ -33,9 +38,7 @@
                     <input matInput placeholder="ID del grupo del reporte" formControlName="reportURL">
                 </mat-form-field>
                 <div style="width: 7px"></div> <!-- Espacio entre los campos -->
-                <mat-form-field class="report-field" floatLabel="always" style="visibility: hidden;">
-                    <input matInput placeholder="Token del reporte" value="vacio" formControlName="reportToken">
-                </mat-form-field>
+               
             </div>
         </form>
     </mat-card-content>

@@ -1,3 +1,8 @@
+<button mat-button class="close-button" (click)="closeModal()">
+    <mat-icon>close</mat-icon>
+  </button>
+  
+  
 <div id="container">
     <div *ngIf="users.length > 0; else nousersMessage">
         <div class="user-container" *ngFor="let user of users | slice: pageIndex * pageSize : (pageIndex + 1) * pageSize">

@@ -112,8 +112,8 @@ export class DashboardAdminComponent implements OnInit {
     const modalHeight = windowHeight * 0.7; // Por ejemplo, ocupa el 80% del alto de la ventana
   
     const dialogRef = this.dialog.open(ViewUsersComponent, {
-      width: `${modalWidth}px`,
-      height: `${modalHeight}px`,
+      width: `100%`,
+      height: `100%`,
       // También puedes ajustar otras opciones de la modal según tus necesidades
     });
   
@@ -131,8 +131,8 @@ export class DashboardAdminComponent implements OnInit {
     const modalHeight = windowHeight * 0.7; // Por ejemplo, ocupa el 80% del alto de la ventana
   
     const dialogRef = this.dialog.open(ViewPostComponent, {
-      width: `${modalWidth}px`,
-      height: `${modalHeight}px`,
+      width: `100%`,
+      height: `100%`,
       // También puedes ajustar otras opciones de la modal según tus necesidades
     });
   
@@ -166,7 +166,7 @@ export class DashboardAdminComponent implements OnInit {
       httpOptions.headers = httpOptions.headers.set('Authorization', token);
       //console.log(httpOptions.headers);
       
-      const url = 'http://192.1.1.104:3000/verify-token';
+      const url = 'http://localhost:3000/verify-token';
       this.http.get(url, httpOptions).subscribe(
         (response) => {
           this.authService.setLoggedIn(true);
@@ -193,7 +193,8 @@ export class DashboardAdminComponent implements OnInit {
 
   openReportModal() {
     const dialogRef = this.dialog.open(ReportModalComponent, {
-      width: '1200px',
+      width: `100%`,
+      height: `100%`,
       data: {},
     });
 
@@ -203,7 +204,7 @@ export class DashboardAdminComponent implements OnInit {
   }
 
   loadPowerBIReport(reportId: number) {
-    const url = `http://192.1.1.104:3000/powerbi-report-details/${reportId}`;
+    const url = `http://localhost:3000/powerbi-report-details/${reportId}`;
     this.http.get(url).subscribe(
       (response: any) => {
         if (response && response.reportId && response.embedUrl && response.accessToken) {

@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MatDialogRef } from '@angular/material/dialog';
+import { FormControl } from '@angular/forms';
+
 
 @Component({
   selector: 'app-new-user',
@@ -14,7 +17,8 @@ export class NewUserComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
-    private http: HttpClient
+    private http: HttpClient,
+    public dialogRef: MatDialogRef<NewUserComponent>
   ) {
     this.formulario = this.formBuilder.group({
       nombre: ['', Validators.required],
@@ -68,12 +72,13 @@ export class NewUserComponent implements OnInit {
       }
 
       // Enviar la solicitud POST al servidor
-      this.http.post('http://192.1.1.104:3000/new-user', data, httpOptions ).subscribe(
+      this.http.post('http://localhost:3000/new-user', data, httpOptions ).subscribe(
         () => {
           // Éxito: mostrar mensaje de éxito
           this.snackBar.open('Formulario guardado correctamente', 'Cerrar', {
             duration: 2000
           });
+          this.formulario.reset();
         },
         (error) => {
           // Error: mostrar mensaje de error
@@ -89,5 +94,9 @@ export class NewUserComponent implements OnInit {
         duration: 2000
       });
     }
+  }
+
+  closeModal() {
+    this.dialogRef.close();
   }
 }

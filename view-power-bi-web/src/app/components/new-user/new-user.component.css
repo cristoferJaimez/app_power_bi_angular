@@ -33,3 +33,18 @@ mat-card {
   justify-content: flex-end;
   margin-top: 10px;
 }
+
+.close-button {
+  position: relative;
+  top: 10px;
+  left: 92%;
+  z-index: 1000;
+  background: transparent;
+  color: #000;
+}
+
+.close-button:hover {
+  color: #ff0000;
+}
+
+

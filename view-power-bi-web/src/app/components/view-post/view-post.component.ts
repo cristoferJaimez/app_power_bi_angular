@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { AnimationItem } from 'lottie-web';
 import * as lottie from 'lottie-web';
+import { MatDialogRef } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-view-post',
@@ -9,6 +11,13 @@ import * as lottie from 'lottie-web';
 })
 export class ViewPostComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('animationContainer') animationContainer!: ElementRef;
+
+
+  constructor(
+    public dialogRef: MatDialogRef<ViewPostComponent>
+  ){
+
+  }
 
   animationItem!: AnimationItem;
 
@@ -57,5 +66,9 @@ export class ViewPostComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // Cargar la animación utilizando lottie.default.loadAnimation()
     this.animationItem = lottie.default.loadAnimation(animationOptions);
+  }
+
+  closeModal() {
+    this.dialogRef.close();
   }
 }

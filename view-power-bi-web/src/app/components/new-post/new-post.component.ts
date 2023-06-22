@@ -3,6 +3,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ElementRef } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-new-post',
@@ -23,7 +25,8 @@ export class NewPostComponent implements OnInit {
 
   constructor(private http: HttpClient, 
     private snackBar: MatSnackBar,
-    private elementRef: ElementRef,) {}
+    private elementRef: ElementRef,
+    public dialogRef: MatDialogRef<NewPostComponent>) {}
 
   ngOnInit() {
     this.fetchLabOptions(); // Llamada al método para obtener las opciones de laboratorio
@@ -41,7 +44,7 @@ export class NewPostComponent implements OnInit {
       })
     };
 
-    const url = 'http://192.1.1.104:3000/list-labs'; // Actualiza la URL según tu backend
+    const url = 'http://localhost:3000/list-labs'; // Actualiza la URL según tu backend
 
     // Llamada al servicio para obtener los datos del procedimiento almacenado
     this.http.get<any[]>(url, httpOptions).subscribe(
@@ -123,7 +126,7 @@ export class NewPostComponent implements OnInit {
 
 
       // Enviar los datos del formulario al servidor Express
-      this.http.post<any>('http://192.1.1.104:3000/guardar-post', formData, httpOptions).subscribe(
+      this.http.post<any>('http://localhost:3000/guardar-post', formData, httpOptions).subscribe(
         response => {
           console.log('Formulario guardado exitosamente:', response);
           this.form.reset();
@@ -158,4 +161,9 @@ export class NewPostComponent implements OnInit {
       element.focus();
     }
   }
+
+  closeModal() {
+    this.dialogRef.close();
+  }
+
 }

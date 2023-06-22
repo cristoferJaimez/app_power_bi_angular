@@ -32,9 +32,10 @@ router.post('/guardar-post', authenticateToken, isAdmin, (req, res) => {
       // Obtener los datos del formulario enviados en la solicitud
       const { usuario_id, id_report, url_report, token_report, title, description } = req.body;
   
+      
       // Llamar al procedimiento almacenado
       const insertProcedure = `CALL guardar_post(?, ?, ?, ?, ?, NOW(), NOW(), 1, ?)`;
-      const procedureValues = [usuario_id, id_report, url_report, "vacio", description, title];
+      const procedureValues = [usuario_id, id_report, url_report, token_report, description, title];
   
       // Ejecutar el procedimiento almacenado en la base de datos
       connection.query(insertProcedure, procedureValues, (error, results) => {
