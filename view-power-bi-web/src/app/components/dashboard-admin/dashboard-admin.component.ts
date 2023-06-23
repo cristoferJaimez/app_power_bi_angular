@@ -11,7 +11,7 @@ import { NewUserComponent } from '../new-user/new-user.component';
 import { NewPostComponent } from '../new-post/new-post.component';
 import { ViewPostComponent } from '../view-post/view-post.component'
 import { ViewUsersComponent } from '../view-users/view-users.component'
-import { environment } from '../../../environment'
+import { environment } from '../../environment'
 
 @Component({
   selector: 'app-dashboard',

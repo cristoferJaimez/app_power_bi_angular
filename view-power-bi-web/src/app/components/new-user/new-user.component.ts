@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
-import { environment } from '../../../environment'
+import { environment } from '../../environment'
 
 @Component({
   selector: 'app-new-user',

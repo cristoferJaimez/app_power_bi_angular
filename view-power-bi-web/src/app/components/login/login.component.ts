@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { environment } from '../../../environment'
+import { environment } from '../../environment'
 
 @Component({
   selector: 'app-login',

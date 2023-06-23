@@ -3,7 +3,7 @@ import { Report, models, IEmbedConfiguration } from 'powerbi-client';
 import { HttpClient } from '@angular/common/http';
 import * as pbi from 'powerbi-client';
 declare const powerbi: any;
-import { environment } from '../../environment'
+import { environment } from '../environment'
 
 @Injectable({
   providedIn: 'root'

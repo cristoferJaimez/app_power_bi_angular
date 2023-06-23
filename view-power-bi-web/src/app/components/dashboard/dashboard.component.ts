@@ -10,7 +10,7 @@ import { ReportModalService } from '../../services/report-credentials.service';
 import { PowerBiService } from '../../services/powerbi.service';
 import { AnimationItem } from 'lottie-web';
 import * as lottie from 'lottie-web';
-import { environment } from '../../../environment'
+import { environment } from '../../environment'
 
 @Component({
   selector: 'app-dashboard',
