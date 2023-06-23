@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from '../../../../environment'
 
 @Component({
   selector: 'app-login',
@@ -31,7 +32,7 @@ export class LoginComponent {
 
    
 
-    this.http.post('http://192.1.1.104:3000/login/', { username: this.username, password: this.password }).subscribe(
+    this.http.post(`http://${environment.apiUrl}/login/`, { username: this.username, password: this.password }).subscribe(
       (response: any) => {
         const token = response.token;
         const id_user = response.usuarioId;

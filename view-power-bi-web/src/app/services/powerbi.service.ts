@@ -3,6 +3,7 @@ import { Report, models, IEmbedConfiguration } from 'powerbi-client';
 import { HttpClient } from '@angular/common/http';
 import * as pbi from 'powerbi-client';
 declare const powerbi: any;
+import { environment } from '../../../environment'
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class PowerBiService {
   constructor(private http: HttpClient) { }
 
   getEmbedConfig(reportId: any) {
-    const url = `http://192.1.1.104:3000/obtener-informes/${reportId}`;
+    const url = `http://${environment.apiUrl}/obtener-informes/${reportId}`;
     return this.http.get(url);
   }
 

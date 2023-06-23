@@ -10,6 +10,7 @@ import { ReportModalService } from '../../services/report-credentials.service';
 import { PowerBiService } from '../../services/powerbi.service';
 import { AnimationItem } from 'lottie-web';
 import * as lottie from 'lottie-web';
+import { environment } from '../../../../environment'
 
 @Component({
   selector: 'app-dashboard',
@@ -89,7 +90,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     if (token) {
       httpOptions.headers = httpOptions.headers.set('Authorization', token);
 
-      const url = 'http://192.1.1.104:3000/verify-token';
+      const url = `http://${environment.apiUrl}/verify-token`;
       this.http.get(url, httpOptions).subscribe(
         (response) => {
           this.authService.setLoggedIn(true);
@@ -113,7 +114,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
 
     const headers = new HttpHeaders().set('Authorization', token);
 
-    const url = `http://192.1.1.104:3000/list-items/${userId}`;
+    const url = `http://${environment.apiUrl}/list-items/${userId}`;
     this.http.get(url, { headers }).subscribe(
       (response: any) => {
         const posts = response;

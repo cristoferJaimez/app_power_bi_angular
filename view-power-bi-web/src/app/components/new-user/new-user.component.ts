@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
-
+import { environment } from '../../../../environment'
 
 @Component({
   selector: 'app-new-user',
@@ -72,7 +72,7 @@ export class NewUserComponent implements OnInit {
       }
 
       // Enviar la solicitud POST al servidor
-      this.http.post('http://192.1.1.104:3000/new-user', data, httpOptions ).subscribe(
+      this.http.post(`http://${environment.apiUrl}/new-user`, data, httpOptions ).subscribe(
         () => {
           // Éxito: mostrar mensaje de éxito
           this.snackBar.open('Formulario guardado correctamente', 'Cerrar', {

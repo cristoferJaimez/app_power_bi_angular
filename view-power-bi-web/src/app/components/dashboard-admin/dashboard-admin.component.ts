@@ -11,7 +11,8 @@ import { NewUserComponent } from '../new-user/new-user.component';
 import { NewPostComponent } from '../new-post/new-post.component';
 import { ViewPostComponent } from '../view-post/view-post.component'
 import { ViewUsersComponent } from '../view-users/view-users.component'
- 
+import { environment } from '../../../../environment'
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard-admin.component.html',
@@ -166,7 +167,7 @@ export class DashboardAdminComponent implements OnInit {
       httpOptions.headers = httpOptions.headers.set('Authorization', token);
       //console.log(httpOptions.headers);
       
-      const url = 'http://192.1.1.104:3000/verify-token';
+      const url =  `http://${environment.apiUrl}/verify-token`;
       this.http.get(url, httpOptions).subscribe(
         (response) => {
           this.authService.setLoggedIn(true);
@@ -204,7 +205,7 @@ export class DashboardAdminComponent implements OnInit {
   }
 
   loadPowerBIReport(reportId: number) {
-    const url = `http://192.1.1.104:3000/powerbi-report-details/${reportId}`;
+    const url = `http://${environment.apiUrl}/powerbi-report-details/${reportId}`;
     this.http.get(url).subscribe(
       (response: any) => {
         if (response && response.reportId && response.embedUrl && response.accessToken) {
