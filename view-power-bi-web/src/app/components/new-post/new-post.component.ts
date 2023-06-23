@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ElementRef } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { environment } from '../../../../environment'
+import { environment } from '../../../environment'
 
 @Component({
   selector: 'app-new-post',
