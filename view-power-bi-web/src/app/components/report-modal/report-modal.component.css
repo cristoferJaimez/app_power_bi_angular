@@ -1,10 +1,89 @@
 #reportContainer {
-    width: 100%;
-    height: 100%;
-    padding: 20px;
-    margin: 0;
-    background-color: #f0f0f0;
-    box-sizing: border-box;
-    border: none;
-  }
-  
+  width: 100% !important;
+  height: 95% !important;
+  padding: 7px;
+  max-width: 100vw;
+  margin: 0;
+  background-color: #f0f0f0;
+  box-sizing: border-box;
+  border: none;
+  position: relative;
+}
+
+.menu {
+  position: fixed;
+  bottom: 5px;
+  left: 5px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.menu li {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #333333;
+}
+
+
+.close-button {
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+  background-color:  #4385c7; /* Cambia el color de fondo al adecuado */
+  color: #ffffff; /* Cambia el color del texto al adecuado */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  background-color: #336699; /* Cambia el color de fondo al adecuado para el efecto de hover */
+}
+
+
+.left-item {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.right-item {
+  margin-left: auto;
+  margin-right: 10px;
+  bottom: 20px;
+}
+
+
+.login-image {
+  position: relative;
+  top: 7px;
+  left: 20px;
+  transform: translateX(-50%);
+  padding: 3px;
+  border: solid #a32711 3px;
+  width: 30px; /* Ajusta el tamaño de la imagen según tus necesidades */
+  height: 30px;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+ 
+}
+
+
+#animationContainer {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

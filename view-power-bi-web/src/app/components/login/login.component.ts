@@ -32,7 +32,7 @@ export class LoginComponent {
 
    
 
-    this.http.post(`http://${environment.apiUrl}/login/`, { username: this.username, password: this.password }).subscribe(
+    this.http.post(`${environment.apiUrl}/login/`, { username: this.username, password: this.password }).subscribe(
       (response: any) => {
         const token = response.token;
         const id_user = response.usuarioId;

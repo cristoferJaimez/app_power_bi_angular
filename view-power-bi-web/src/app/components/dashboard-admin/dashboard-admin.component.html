@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-content">
       <div class="image-container">
-        <img src="https://www.close-upinternational.com/img/logo.svg" alt="Imagen de Publicaciones">
+        <img src="../../../assets/images/Logo Power BI.svg" alt="Imagen de Publicaciones">
       </div>
       <mat-divider></mat-divider>
       <mat-card-header>
@@ -22,7 +22,7 @@
   <div class="card">
     <div class="card-content">
       <div class="image-container">
-        <img src="https://www.close-upinternational.com/img/logo.svg" alt="Imagen de Usuarios">
+        <img src="../../../assets/images/Logo Power BI.svg" alt="Imagen de Usuarios">
       </div>
       <mat-divider></mat-divider>
       <mat-card-header>
@@ -34,6 +34,27 @@
         </button>
         <button mat-icon-button (click)="openNewUserModal()">
           <mat-icon>person_add</mat-icon>
+        </button>
+        
+      </mat-card-actions>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-content">
+      <div class="image-container">
+        <img src="../../../assets/images/Logo Power BI.svg" alt="Imagen de Usuarios">
+      </div>
+      <mat-divider></mat-divider>
+      <mat-card-header>
+        <mat-card-title>Bitacora</mat-card-title>
+      </mat-card-header>
+      <mat-card-actions class="button-container">
+        
+        <button mat-icon-button (click)="openLogModal()">
+          <mat-icon><span class="material-symbols-outlined">
+            manage_search
+            </span></mat-icon>
         </button>
         
       </mat-card-actions>

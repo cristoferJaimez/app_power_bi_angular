@@ -44,7 +44,7 @@ export class NewPostComponent implements OnInit {
       })
     };
 
-    const url = `http://${environment.apiUrl}/list-labs`; // Actualiza la URL según tu backend
+    const url = `${environment.apiUrl}/list-labs`; // Actualiza la URL según tu backend
 
     // Llamada al servicio para obtener los datos del procedimiento almacenado
     this.http.get<any[]>(url, httpOptions).subscribe(
@@ -126,7 +126,7 @@ export class NewPostComponent implements OnInit {
 
 
       // Enviar los datos del formulario al servidor Express
-      this.http.post<any>(`http://${environment.apiUrl}/guardar-post`, formData, httpOptions).subscribe(
+      this.http.post<any>(`${environment.apiUrl}/guardar-post`, formData, httpOptions).subscribe(
         response => {
           console.log('Formulario guardado exitosamente:', response);
           this.form.reset();

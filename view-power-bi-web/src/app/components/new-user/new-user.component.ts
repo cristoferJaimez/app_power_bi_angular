@@ -72,7 +72,7 @@ export class NewUserComponent implements OnInit {
       }
 
       // Enviar la solicitud POST al servidor
-      this.http.post(`http://${environment.apiUrl}/new-user`, data, httpOptions ).subscribe(
+      this.http.post(`${environment.apiUrl}/new-user`, data, httpOptions ).subscribe(
         () => {
           // Éxito: mostrar mensaje de éxito
           this.snackBar.open('Formulario guardado correctamente', 'Cerrar', {

@@ -2,6 +2,9 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Inject, Renderer2 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PowerBiService } from '../../services/powerbi.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { AnimationItem } from 'lottie-web';
+import * as lottie from 'lottie-web';
 
 @Component({
   selector: 'app-report-modal',
@@ -11,11 +14,14 @@ import { PowerBiService } from '../../services/powerbi.service';
 export class ReportModalComponent implements OnInit, OnDestroy {
   @ViewChild('reportContainer') reportContainer!: ElementRef;
   embedConfig: any;
+  @ViewChild('animationContainer') animationContainer!: ElementRef;
+  animationItem!: AnimationItem;
 
   constructor(
     private powerBiService: PowerBiService,
     private snackBar: MatSnackBar,
     private renderer: Renderer2,
+    public dialogRef: MatDialogRef<ReportModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { reportId: number }
   ) { }
 
@@ -47,5 +53,24 @@ export class ReportModalComponent implements OnInit, OnDestroy {
     //this.renderer.setStyle(element, 'width', '100vw');
     //this.renderer.setStyle(element, 'height', '100vh');
     this.powerBiService.loadReport(this.embedConfig, element);
+  }
+  closeModal() {
+    this.dialogRef.close();
+  }
+
+  ngAfterViewInit() {
+    const animationPath = './assets/images/97443-loading-gray.json'; // Verifica la ruta del archivo JSON de la animación
+
+    // Opciones de configuración de la animación (ajusta según tus necesidades)
+    const animationOptions: lottie.AnimationConfigWithPath = {
+      container: this.animationContainer.nativeElement,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: animationPath
+    };
+
+    // Cargar la animación utilizando lottie.default.loadAnimation()
+    this.animationItem = lottie.default.loadAnimation(animationOptions);
   }
 }

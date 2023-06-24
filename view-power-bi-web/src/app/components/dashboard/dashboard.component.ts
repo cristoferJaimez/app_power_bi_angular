@@ -90,7 +90,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     if (token) {
       httpOptions.headers = httpOptions.headers.set('Authorization', token);
 
-      const url = `http://${environment.apiUrl}/verify-token`;
+      const url = `${environment.apiUrl}/verify-token`;
       this.http.get(url, httpOptions).subscribe(
         (response) => {
           this.authService.setLoggedIn(true);
@@ -114,7 +114,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
 
     const headers = new HttpHeaders().set('Authorization', token);
 
-    const url = `http://${environment.apiUrl}/list-items/${userId}`;
+    const url = `${environment.apiUrl}/list-items/${userId}`;
     this.http.get(url, { headers }).subscribe(
       (response: any) => {
         const posts = response;
@@ -144,6 +144,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     const dialogRef = this.dialog.open(ReportModalComponent, {
       width: '100%',
       height: '100%',
+      maxWidth: '100wv',
       data: { reportId: id },
     });
   

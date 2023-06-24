@@ -1,0 +1,63 @@
+.close-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #f34121;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 10px;
+  }
+  
+  .close-button:hover {
+    background-color: #cc361c;
+  }
+
+  .card-container {
+    width: 100%;
+    top: 60px;
+    padding: 20px;
+    margin: 0 auto;
+    background-color: #fff;
+  }
+  
+  .card-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .lab-field,
+  .title-field,
+  .report-field {
+    flex: 1;
+    margin-right: 10px;
+  }
+  
+  .description-field {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .divider {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+  }
+  
+  .button-row {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  button {
+    margin-left: 10px;
+  }
+  

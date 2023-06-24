@@ -14,7 +14,7 @@ export class PowerBiService {
   constructor(private http: HttpClient) { }
 
   getEmbedConfig(reportId: any) {
-    const url = `http://${environment.apiUrl}/obtener-informes/${reportId}`;
+    const url = `${environment.apiUrl}/obtener-informes/${reportId}`;
     return this.http.get(url);
   }
 

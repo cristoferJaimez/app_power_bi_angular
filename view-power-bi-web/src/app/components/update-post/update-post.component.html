@@ -1,0 +1,35 @@
+<mat-card class="card-container">
+    <mat-card-title class="card-title">Actualizar información del reporte {{ postData.name | uppercase }}</mat-card-title>
+
+    <mat-card-content>
+      <form [formGroup]="form">
+        <div class="form-row">
+         
+          <mat-form-field class="title-field" floatLabel="always">
+            <input matInput placeholder="Título" [value]="form.get('title')?.value" formControlName="title">
+          </mat-form-field>
+        </div>
+        <mat-form-field class="description-field" floatLabel="always">
+          <textarea matInput placeholder="Descripción" [value]="form.get('description')?.value" formControlName="description"></textarea>
+        </mat-form-field>
+        <div class="form-row">
+          <mat-form-field class="report-field" floatLabel="always">
+            <input matInput placeholder="ID del reporte" [value]="form.get('reportID')?.value" formControlName="reportID">
+          </mat-form-field>
+          <div style="width: 7px"></div> <!-- Espacio entre los campos -->
+          <mat-form-field class="report-field" floatLabel="always">
+            <input matInput placeholder="ID del grupo del reporte" [value]="form.get('reportURL')?.value" formControlName="reportURL">
+          </mat-form-field>
+          <div style="width: 7px"></div> <!-- Espacio entre los campos -->
+        </div>
+      </form>
+    </mat-card-content>
+    <div class="divider"></div> <!-- Divider -->
+    <mat-card-actions>
+      <div class="button-row">
+        <button mat-raised-button color="warn" (click)="onCancel()">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="onSave()" [disabled]="!form.valid">Guardar</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+  

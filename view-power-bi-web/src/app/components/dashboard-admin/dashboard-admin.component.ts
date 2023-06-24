@@ -11,6 +11,7 @@ import { NewUserComponent } from '../new-user/new-user.component';
 import { NewPostComponent } from '../new-post/new-post.component';
 import { ViewPostComponent } from '../view-post/view-post.component'
 import { ViewUsersComponent } from '../view-users/view-users.component'
+import { LogComponent } from '../log/log.component'
 import { environment } from '../../environment'
 
 @Component({
@@ -84,6 +85,29 @@ export class DashboardAdminComponent implements OnInit {
   }
   
 
+
+  openLogModal() {
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+  
+    // Calcula el ancho y alto de la modal en función del tamaño de la ventana y el margen que deseas dejar
+    const modalWidth = windowWidth * 0.8; // Por ejemplo, ocupa el 80% del ancho de la ventana
+    const modalHeight = windowHeight * 0.7; // Por ejemplo, ocupa el 80% del alto de la ventana
+  
+    const dialogRef = this.dialog.open(LogComponent, {
+      width: `100%`,
+      height: `100%`,
+      maxWidth: "100%",
+      // También puedes ajustar otras opciones de la modal según tus necesidades
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      // Aquí puedes realizar acciones después de que se cierre el modal, si es necesario
+    });
+  }
+  
+
+
   openNewPostModal() {
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
@@ -115,6 +139,7 @@ export class DashboardAdminComponent implements OnInit {
     const dialogRef = this.dialog.open(ViewUsersComponent, {
       width: `100%`,
       height: `100%`,
+      maxWidth: '100%'
       // También puedes ajustar otras opciones de la modal según tus necesidades
     });
   
@@ -134,6 +159,7 @@ export class DashboardAdminComponent implements OnInit {
     const dialogRef = this.dialog.open(ViewPostComponent, {
       width: `100%`,
       height: `100%`,
+      maxWidth: '100%'
       // También puedes ajustar otras opciones de la modal según tus necesidades
     });
   
@@ -142,7 +168,7 @@ export class DashboardAdminComponent implements OnInit {
     });
   }
   
-  
+   
 
   
 
@@ -167,7 +193,7 @@ export class DashboardAdminComponent implements OnInit {
       httpOptions.headers = httpOptions.headers.set('Authorization', token);
       //console.log(httpOptions.headers);
       
-      const url =  `http://${environment.apiUrl}/verify-token`;
+      const url =  `${environment.apiUrl}/verify-token`;
       this.http.get(url, httpOptions).subscribe(
         (response) => {
           this.authService.setLoggedIn(true);
@@ -205,7 +231,7 @@ export class DashboardAdminComponent implements OnInit {
   }
 
   loadPowerBIReport(reportId: number) {
-    const url = `http://${environment.apiUrl}/powerbi-report-details/${reportId}`;
+    const url = `${environment.apiUrl}/powerbi-report-details/${reportId}`;
     this.http.get(url).subscribe(
       (response: any) => {
         if (response && response.reportId && response.embedUrl && response.accessToken) {

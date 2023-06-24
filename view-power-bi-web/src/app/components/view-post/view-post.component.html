@@ -1,42 +1,63 @@
+<!-- view-post.component.html -->
+<div class="search-bar">
+  <mat-form-field appearance="outline">
+    <mat-label>Buscar por laboratorio o fecha</mat-label>
+    <input matInput type="text" [(ngModel)]="searchText" (keyup)="filterPosts()">
+  </mat-form-field>
 
-<button mat-button class="close-button" (click)="closeModal()">
-    <mat-icon>close</mat-icon>
-  </button>
-  
-  
-<div id="container">
-    <div *ngIf="posts.length > 0; else noPostsMessage">
-        <div class="post-container" *ngFor="let post of posts | slice: pageIndex * pageSize : (pageIndex + 1) * pageSize">
-            <img class="post-image" [src]="post.image" alt="Post Image">
-            <div class="post-details">
-                <h3>{{ post.company }}</h3>
-                <div class="post-date">{{ post.date | date }}</div>
-                <p class="post-company">{{ post.title }}</p>
-            </div>
-            <div class="post-actions">
-                <button (click)="editarPost(post.id)" class="edit-button">
-                    <span class="material-icons">edit</span>
-                </button>
-                <button (click)="editarPost(post.id)" class="view-button">
-                    <span class="material-icons">visibility</span>
-                </button>
-                <button (click)="eliminarPost(post.id)" class="delete-button">
-                    <span class="material-icons">delete_forever</span>
-                </button>
-            </div>
-        </div>
+  <mat-paginator [length]="filteredPosts.length" [pageSize]="pageSize" [pageIndex]="pageIndex"
+    (page)="changePage($event)"></mat-paginator>
+</div>
 
-        <mat-paginator [length]="totalPosts" [pageSize]="pageSize" [pageIndex]="pageIndex"
-            (page)="cambiarPagina($event)"></mat-paginator>
+
+<div class="post-list">
+  <div class="post-item" *ngFor="let post of paginatedPosts">
+    <div class="post-header">
+      <img class="post-image" [src]="post.image_url" alt="Post Image">
+      <div class="post-details">
+        <h3>{{ post.description | uppercase }}</h3>
+        <div class="post-title">{{ post.title }}</div>
+        <div class="post-title">{{ post.texto }}</div>
+      </div>
+      <div class="post-badge">
+        <mat-badge [color]="post.estatus === 1 ? 'secondary' : 'warn'" [badgeContent]="post.estatus === 1 ? '' : ' '"
+          overlap="rectangle">
+          <mat-icon>{{ post.estatus === 1 ? 'publicado' : 'delete' }}</mat-icon>
+        </mat-badge>
+        <div class="post-date">{{ post.date_create | date }}</div>
+
+      </div>
     </div>
 
-    <ng-template #noPostsMessage>
-        <div class="no-posts-message-container">
-            <div #animationContainer id="animationContainer"></div>
-            <div class="no-posts-message">
-                No hay publicaciones disponibles.
-              </div>             
-        </div>
-        
-    </ng-template>
+    <div class="post-actions">
+      <button (click)="editarPost(post.id)" class="edit-button">
+        <span class="material-icons">edit</span>
+      
+      </button>
+      <button (click)="openPowerBIReport(post.id)" class="view-button">
+        <span class="material-icons">visibility</span>
+      
+      </button>
+      <button *ngIf="post.estatus === 1" (click)="eliminarPost(post.id)" class="delete-button">
+        <span class="material-icons">delete_forever</span>
+      </button>
+      
+      <button *ngIf="post.estatus !== 1" (click)="publicarPost(post.id)" class="public-button">
+        <span class="material-icons">public</span>
+      </button>
+      
+    </div>
+  </div>
+
+  <a class="close-button" (click)="closeModal()">
+    <mat-icon>close</mat-icon>
+  </a>
+
+  <div class="no-posts-message-container" *ngIf="filteredPosts.length === 0">
+    <div #animationContainer id="animationContainer"></div>
+    <div class="no-posts-message">No hay publicaciones disponibles.</div>
+  </div>
 </div>
+ 
+
+ 

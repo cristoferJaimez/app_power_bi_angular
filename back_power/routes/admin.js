@@ -110,9 +110,72 @@ router.get('/list-items/:id', authenticateToken, (req, res) => {
   });
   
   // Ruta protegida con JWT - GET para obtener todos los elementos
-  router.get('/items', authenticateToken, (req, res) => {
+  router.get('/items', (req, res) => {
     // Lógica para obtener todos los elementos
-    res.send('Obtener todos los elementos');
-  });
+    const query = "CALL getAllPosts();";
   
+    // Ejecutar la consulta al procedimiento almacenado
+    connection.query(query, (error, results) => {
+      if (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los posts' });
+      } else {
+        res.json(results[0]); // Devuelve los resultados obtenidos por el procedimiento almacenado
+      }
+    });
+  });  
+   
+
+  // Definir la ruta que utiliza el procedimiento almacenado
+router.get('/posts/:id', (req, res) => {
+  const postId = req.params.id;
+  console.log(postId);
+  // Llamada al procedimiento almacenado GetPostData
+  const query = `CALL GetPostData(${postId})`;
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Error al ejecutar el procedimiento almacenado: ', err);
+      res.status(500).json({ error: 'Error al obtener los datos del post' });
+      return;
+    }
+
+    // Los datos del post estarán en results[0]
+    const postData = results[0][0];
+    res.json(postData);
+  });
+});
+  
+ 
+router.post('/update-post', (req, res) => {
+  const { postId, title, description, reportId, reportUrl } = req.body;
+
+  const query = `CALL actualizarPost(${postId}, '${title}', '${description}', '${reportId}', '${reportUrl}')`;
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error al actualizar los datos en la tabla post', error);
+      res.status(500).json({ error: 'Error al actualizar los datos en la tabla post' });
+    } else {
+      console.log('Datos actualizados en la tabla post');
+      res.status(200).json({ message: 'Datos actualizados en la tabla post' });
+    }
+  });
+});
+
+router.get('/users', (req, res) => {
+  const query = 'CALL getAllUsers()';
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error al obtener los usuarios', error);
+      res.status(500).json({ error: 'Error al obtener los usuarios' });
+    } else {
+      console.log('Usuarios obtenidos correctamente');
+      res.status(200).json(results[0]);
+    }
+  });
+});
+
+
 module.exports = router;
