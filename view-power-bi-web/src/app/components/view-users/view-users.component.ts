@@ -4,9 +4,11 @@ import * as lottie from 'lottie-web';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environment';
-import { GroupUserComponent } from '../group-user/group-user.component'
-import { InfoUserComponent } from '../info-user/info-user.component'
-import { EditUserComponent } from '../edit-user/edit-user.component'
+import { GroupUserComponent } from '../group-user/group-user.component';
+import { InfoUserComponent } from '../info-user/info-user.component';
+import { EditUserComponent } from '../edit-user/edit-user.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-view-users',
@@ -20,6 +22,7 @@ export class ViewUsersComponent implements OnInit, OnDestroy, AfterViewInit {
     public dialogRef: MatDialogRef<ViewUsersComponent>,
     private http: HttpClient,
     private dialog: MatDialog,
+    private snackBar: MatSnackBar,
   ) {}
 
   animationItem!: AnimationItem;
@@ -42,48 +45,105 @@ export class ViewUsersComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   eliminarUser(userId: string) {
-    // Lógica para eliminar el usuario
-    // ...
+    const apiUrl = `${environment.apiUrl}/toggle-user-status/${userId}`;
+  
+    // Mostrar alert para confirmar la eliminación del usuario
+    if (confirm('¿Estás seguro de eliminar este usuario?')) {
+      this.http.post(apiUrl, {}).subscribe(
+        (response: any) => {
+          console.log('Procedimiento almacenado ejecutado correctamente');
+          // Realiza las acciones necesarias después de cambiar el estado del usuario
+          // ...
+  
+          // Actualiza el estado del usuario y el ícono en el arreglo de usuarios filtrados
+          const userIndex = this.filteredUsers.findIndex(user => user.id === userId);
+  
+          if (userIndex !== -1) {
+            this.filteredUsers[userIndex].status = response.status === 0 ? 0 : 1;
+            this.filteredUsers[userIndex].icon = response.status === 0 ? 'block' : 'check';
+          }
+  
+          // Mostrar un toast para confirmar la eliminación del usuario
+          this.snackBar.open('Usuario eliminado correctamente', 'Aceptar', {
+            duration: 2000
+          });
+        },
+        (error) => {
+          console.error('Error al ejecutar el procedimiento almacenado: ', error);
+          // Maneja el error de acuerdo a tus necesidades
+          // ...
+        }
+      );
+    }
   }
+  
+  activeUser(userId: string) {
+    const apiUrl = `${environment.apiUrl}/toggle-user-status/${userId}`;
+  
+    // Mostrar alert para confirmar la activación del usuario
+    if (confirm('¿Estás seguro de activar este usuario?')) {
+      this.http.post(apiUrl, {}).subscribe(
+        (response: any) => {
+          console.log('Procedimiento almacenado ejecutado correctamente');
+          // Realiza las acciones necesarias después de cambiar el estado del usuario
+          // ...
+  
+          // Actualiza el estado del usuario y el ícono en el arreglo de usuarios filtrados
+          const userIndex = this.filteredUsers.findIndex(user => user.id === userId);
+  
+          if (userIndex !== -1) {
+            this.filteredUsers[userIndex].status = response.status === 0 ? 0 : 1;
+            this.filteredUsers[userIndex].icon = response.status === 0 ? 'block' : 'check';
+          }
+  
+          // Mostrar un toast para confirmar la activación del usuario
+          this.snackBar.open('Usuario activado correctamente', 'Aceptar', {
+            duration: 2000
+          });
+        },
+        (error) => {
+          console.error('Error al ejecutar el procedimiento almacenado: ', error);
+          // Maneja el error de acuerdo a tus necesidades
+          // ...
+        }
+      );
+    }
+  }
+  
+  
+  
 
   editarUser(userId: string) {
     const dialogRef = this.dialog.open(EditUserComponent, {
       width: '100%',
       height: '70%',
-      
       data: { reportId: userId },
     });
-  
+
     dialogRef.afterClosed().subscribe((result) => {
       // Aquí puedes realizar acciones después de que se cierre la modal, si es necesario
     });
   }
 
-  
   infoUser(userId: string) {
     const dialogRef = this.dialog.open(InfoUserComponent, {
       width: '100%',
       height: '70%',
-      
-      data: { reportId: userId },
+      data: { userId: userId },
     });
-  
+
     dialogRef.afterClosed().subscribe((result) => {
       // Aquí puedes realizar acciones después de que se cierre la modal, si es necesario
     });
   }
 
-
-
-  
   grupoUser(userId: string) {
     const dialogRef = this.dialog.open(GroupUserComponent, {
       width: '100%',
       height: '70%',
-      
-      data: { reportId: userId },
+      data: { userId: userId },
     });
-  
+
     dialogRef.afterClosed().subscribe((result) => {
       // Aquí puedes realizar acciones después de que se cierre la modal, si es necesario
     });

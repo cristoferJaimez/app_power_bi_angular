@@ -1,51 +1,64 @@
 <div class="search-bar">
-    <mat-form-field appearance="outline">
-      <mat-label>Buscar Usuario</mat-label>
-      <input matInput type="text" [(ngModel)]="searchText" (ngModelChange)="filterUsers()">
-    </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Buscar Usuario</mat-label>
+    <input matInput type="text" [(ngModel)]="searchText" (ngModelChange)="filterUsers()">
+  </mat-form-field>
+</div>
+
+<ng-container *ngIf="filteredUsers.length > 0; else noUsersMessage">
+  <div class="post-list">
+    <div class="post-item" *ngFor="let user of filteredUsers">
+      <div class="post-header">
+        <img class="post-image" [src]="user.image_url" alt="User Image">
+        <div class="post-details">
+          <h3>{{ user.name | uppercase }}</h3>
+          <div class="post-date">{{ user.date_create | date }}</div>
+        </div>
+        <div class="post-badge">
+          <mat-badge [color]="user.status === 1 ? 'secondary' : 'warn'" [badgeContent]="user.status === 1 ? '' : ' '"
+          overlap="rectangle">
+          <mat-icon>{{ user.icon }}</mat-icon>
+        </mat-badge>
+        
+
+        </div>
+      </div>
+      <p class="post-company">{{ user.description }}</p>
+      <div class="post-actions">
+        <!--
+        <button (click)="editarUser(user.id)" class="edit-button">
+          <span class="material-icons">edit</span>
+        </button>
+        <button (click)="infoUser(user.id)" class="view-button">
+          <span class="material-icons">subject</span>
+        </button>
+        <button (click)="grupoUser(user.id)" class="delete-button">
+          <span class="material-icons">group_add</span>
+        </button>
+      -->
+        <button *ngIf="user.status !== 1" (click)="activeUser(user.id)" class="delete-button">
+          <span class="material-icons">check</span>
+        </button>
+        <button *ngIf="user.status === 1" (click)="eliminarUser(user.id)" class="delete-button">
+          <span class="material-icons">block</span>
+        </button>
+      </div>
+    </div>
   </div>
-  
-  <ng-container *ngIf="filteredUsers.length > 0; else noUsersMessage">
-    <div class="post-list">
-      <div class="post-item" *ngFor="let user of filteredUsers">
-        <div class="post-header">
-          <img class="post-image" [src]="user.image_url" alt="User Image">
-          <div class="post-details">
-            <h3>{{ user.name | uppercase }}</h3>
-            <div class="post-date">{{ user.date_create | date }}</div>
-          </div>
-        </div>
-        <p class="post-company">{{ user.description }}</p>
-        <div class="post-actions">
-          <button (click)="editarUser(user.id)" class="edit-button">
-            <span class="material-icons">edit</span>
-          </button>
-          <button (click)="infoUser(user.id)" class="view-button">
-            <span class="material-icons">subject</span>
-          </button>
-          
-          <button (click)="grupoUser(user.id)" class="delete-button">
-            <span class="material-icons">group_add</span>
-          </button>
-          <button (click)="eliminarUser(user.id)" class="delete-button">
-            <span class="material-icons">delete_forever</span>
-          </button>
-        </div>
-      </div>
+</ng-container>
+
+<ng-template #noUsersMessage>
+  <div class="no-posts-message-container">
+    <div id="animationContainer" #animationContainer></div>
+    <div class="no-posts-message">
+      No hay usuarios disponibles.
     </div>
-  </ng-container>
-  
-  <ng-template #noUsersMessage>
-    <div class="no-posts-message-container">
-      <div id="animationContainer" #animationContainer></div>
-      <div class="no-posts-message">
-        No hay usuarios disponibles.
-      </div>
-    </div>
-  </ng-template>
-  
-  <mat-paginator [length]="totalUsers" [pageSize]="pageSize" [pageIndex]="pageIndex" (page)="changePage($event)"></mat-paginator>
-  
-  <a class="close-button" (click)="closeModal()">
-    <mat-icon>close</mat-icon>
-  </a>
+  </div>
+</ng-template>
+
+<mat-paginator [length]="totalUsers" [pageSize]="pageSize" [pageIndex]="pageIndex"
+  (page)="changePage($event)"></mat-paginator>
+
+<a class="close-button" (click)="closeModal()">
+  <mat-icon>close</mat-icon>
+</a>

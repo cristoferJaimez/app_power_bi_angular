@@ -178,4 +178,27 @@ router.get('/users', (req, res) => {
 });
 
 
+router.post('/toggle-user-status/:userId', (req, res) => {
+  const userId = req.params.userId;
+
+  // Llamada al procedimiento almacenado
+  connection.query('CALL ToggleUserStatus(?)', [userId], (error, results) => {
+    if (error) {
+      console.error('Error al ejecutar el procedimiento almacenado: ', error);
+      res.status(500).json({ error: 'Error al ejecutar el procedimiento almacenado' });
+    } else {
+      console.log('Procedimiento almacenado ejecutado correctamente');
+      const status = results[0][0].status;
+      
+      // Obtener el estado actualizado del usuario desde los resultados
+      console.log(status);
+      
+      res.status(200).json({ status: status });
+    }
+  });
+});
+
+
+
+
 module.exports = router;

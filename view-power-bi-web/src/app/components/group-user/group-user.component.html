@@ -1,1 +1,47 @@
-<p>group-user works!</p>
+<form class="form-container">
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Usuario</mat-label>
+        <input matInput [(ngModel)]="usuario" name="usuario">
+      </mat-form-field>
+  
+      <mat-form-field class="form-field">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" [(ngModel)]="contrasena" name="contrasena">
+      </mat-form-field>
+    </div>
+  
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" [(ngModel)]="email" name="email">
+      </mat-form-field>
+  
+      <mat-form-field class="form-field">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput [(ngModel)]="descripcion" name="descripcion"></textarea>
+      </mat-form-field>
+    </div>
+  
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-label>URL de la imagen</mat-label>
+        <input matInput type="text" [(ngModel)]="imageUrl" name="imageUrl">
+      </mat-form-field>
+  
+      <mat-form-field class="form-field">
+        <mat-label>Estado</mat-label>
+        <mat-select [(ngModel)]="status" name="status">
+          <mat-option value="0">Inactivo</mat-option>
+          <mat-option value="1">Activo</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  
+   
+    <div class="button-row">
+      <button mat-raised-button  (click)="save()" color="primary">Guardar</button>
+      <button mat-raised-button (click)="closeModal()" color="warn">Cancelar</button>
+    </div>
+  </form>
+  
