@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ElementRef } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { environment } from '../../environment'
+import { group } from '@angular/animations';
 
 @Component({
   selector: 'app-new-post',
@@ -13,6 +14,8 @@ import { environment } from '../../environment'
 })
 export class NewPostComponent implements OnInit {
   labOptions: any[] = []; // Arreglo para almacenar las opciones de laboratorio
+  groupOptions: any[] = []; // Arreglo para almacenar las opciones de grupo
+  reportOptions: any[] = []; // Arreglo para almacenar las opciones de reporte
 
   form = new FormGroup({
     lab: new FormControl(''),
@@ -45,16 +48,21 @@ export class NewPostComponent implements OnInit {
     };
 
     const url = `${environment.apiUrl}/list-labs`; // Actualiza la URL según tu backend
-
+    const url_group = `${environment.apiUrl}/list-group`; // Actualiza la URL según tu backend
+    
     // Llamada al servicio para obtener los datos del procedimiento almacenado
+    this.http.get<any[]>(url_group, httpOptions).subscribe(
+      response => {
+        this.groupOptions = response.map(group => ({ id: group.id, name: group.name }));
+      },
+      error => {
+        console.error(error);
+      }
+    );
+
     this.http.get<any[]>(url, httpOptions).subscribe(
       response => {
-        //console.log(response);
-        
-        // Obtener los datos de la respuesta y asignarlos al arreglo labOptions
         this.labOptions = response.map(usuario => ({ value: usuario.id, viewValue: usuario.description, url : usuario.image_url }));
-        //console.log(this.labOptions);
-        
       },
       error => {
         console.error(error);
@@ -62,11 +70,48 @@ export class NewPostComponent implements OnInit {
     );
   }
 
-  // Función para guardar los datos del formulario
+  // Método para obtener las opciones de reporte según el grupo seleccionado
+  fetchReportOptions(idGrupo: string) {
+    const token = localStorage.getItem('token');
+    const type_user = localStorage.getItem('type_user');
+    const httpOptions = { 
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'User_Type': type_user || '', // Enviar el tipo de usuario en el encabezado
+        'Authorization': token || '' // Incluir token en el encabezado
+      })
+    };
+
+    const url = `${environment.apiUrl}/obtener-reportes/${idGrupo}`; // Actualiza la URL según tu backend
+    
+    // Llamada al servicio para obtener los datos de los reportes
+    this.http.get<any[]>(url, httpOptions).subscribe(
+      response => {
+        this.reportOptions = response.map(report => ({
+          id: report.id,
+          name: report.name,
+          embedUrl: report.embedUrl
+        }));
+      },
+      error => {
+        console.error('Error obteniendo los informes de Power BI:', error);
+        // Manejar el error adecuadamente
+      }
+    );
+  }
+
+  // Evento que se ejecuta al cambiar la selección de grupo
+  onLabSelectionChange(labId: string) {
+    if (labId) {
+      this.fetchReportOptions(labId);
+    } else {
+      this.reportOptions = [];
+    }
+  }
+
   onSave() {
     const token = localStorage.getItem('token');
-    const  type_user = localStorage.getItem('type_user');
-   
+    const type_user = localStorage.getItem('type_user');
 
     if (this.form.valid) {
       // Obtener los valores del formulario
@@ -92,23 +137,18 @@ export class NewPostComponent implements OnInit {
         this.focusOnField('reportID');
         return;
       }
+      
       if (!reportURL) {
         this.showSnackBarError('El campo URL del reporte es obligatorio');
         this.focusOnField('reportURL');
         return;
       }
-      /*
-      if (!reportToken) {
-        this.showSnackBarError('El campo Token del reporte es obligatorio');
-        this.focusOnField('reportToken');
-        return;
-      }*/
   
       const formData = {
         usuario_id: lab,
         id_report: reportID,
         url_report: reportURL,
-        token_report: reportToken,
+        token_report: "Null",
         title: title,
         description: description,
       };
@@ -124,13 +164,10 @@ export class NewPostComponent implements OnInit {
         console.log(httpOptions.headers);
       }
 
-
-      // Enviar los datos del formulario al servidor Express
       this.http.post<any>(`${environment.apiUrl}/guardar-post`, formData, httpOptions).subscribe(
         response => {
           console.log('Formulario guardado exitosamente:', response);
           this.form.reset();
-          // Realizar acciones adicionales si es necesario
           this.snackBar.open('Post publicado', 'Cerrar', {
             duration: 3000,
             panelClass: 'danger-toast',
@@ -165,5 +202,4 @@ export class NewPostComponent implements OnInit {
   closeModal() {
     this.dialogRef.close();
   }
-
 }

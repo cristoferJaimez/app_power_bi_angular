@@ -1,79 +1,89 @@
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  position: relative;
+}
+
+.login-card {
+  padding: 12px;
+  width: 90%;
+  max-width: 300px;
+  box-sizing: border-box;
+}
+
+.avatar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.avatar-text {
+  font-size: 24px;
+  color: #333;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-field {
+  margin-bottom: 2px;
+}
+
+button {
+  margin-top: 24px;
+  background-color: #007bff;
+  color: #fff;
+}
+
+.login-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.login-image {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 3px;
+  border: solid #a32711 3px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+  animation: shine 2s forwards;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 0 -50px;
   }
-  
+  100% {
+    background-position: 0 50px;
+  }
+}
+
+@media (max-width: 500px) {
   .login-card {
-    padding: 12px;
-    width: 300px;
-    max-width: 90%;
-    box-sizing: border-box;
+    width: 90%;
+    max-width: none;
   }
   
   .avatar-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 16px;
-  }
-  
-  .avatar-text {
-    font-size: 24px;
-    color: #333;
-  }
-  
-  .login-form {
-    display: flex;
     flex-direction: column;
-  }
-  
-  .input-field {
-    margin-bottom: 2px;
-  }
-  
-  button {
-    margin-top: 24px;
-    background-color: #007bff;
-    color: #fff;
-  }
-  
-  .login-buttons {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  
-  .login-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
     align-items: center;
+    margin-bottom: 0;
   }
   
-  .login-image {
-    position: absolute;
-    top: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 3px;
-    border: solid #a32711 3px;
-    width: 50px; /* Ajusta el tamaño de la imagen según tus necesidades */
-    height: 50px;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    z-index: 1;
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
-    animation: shine 2s forwards;
-  }
-  
-  @keyframes shine {
-    0% {
-      background-position: 0 -50px;
-    }
-    100% {
-      background-position: 0 50px;
+  @media (orientation: landscape) {
+    .avatar-container {
+      display: none;
     }
   }
-  
-  
+}

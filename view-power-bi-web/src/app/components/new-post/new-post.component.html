@@ -30,15 +30,31 @@
                 <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
             </mat-form-field>
             <div class="form-row">
-                <mat-form-field class="report-field" floatLabel="always">
-                    <input matInput placeholder="ID del reporte" formControlName="reportID">
-                </mat-form-field>
-                <div style="width: 7px"></div> <!-- Espacio entre los campos -->
-                <mat-form-field class="report-field" floatLabel="always">
+                <!--<mat-form-field class="report-field" floatLabel="always">
                     <input matInput placeholder="ID del grupo del reporte" formControlName="reportURL">
-                </mat-form-field>
+                </mat-form-field>-->
+                <mat-form-field class="report-field" floatLabel="always">
+                    <mat-label>Nombre del Grupo</mat-label>
+                    <mat-select formControlName="reportURL" (selectionChange)="onLabSelectionChange($event.value)">
+                      <mat-option *ngFor="let option of groupOptions" [value]="option.id">
+                        {{ option.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  
+                  <mat-form-field class="report-field" floatLabel="always">
+                    <mat-label>ID del reporte</mat-label>
+                    <mat-select formControlName="reportID">
+                      <mat-option *ngFor="let report of reportOptions" [value]="report.id">
+                        {{ report.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  
                 <div style="width: 7px"></div> <!-- Espacio entre los campos -->
-               
+                
+                <div style="width: 7px"></div> <!-- Espacio entre los campos -->
+                
             </div>
         </form>
     </mat-card-content>

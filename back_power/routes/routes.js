@@ -192,6 +192,114 @@ router.get('/obtener-informes/:id', async (req, res) => {
 });
 
 
+//obtenr listado de  productos
+router.get('/list-group', authenticateToken, async (req, res) => {
+  try {
+    // AZ APP ADD
+    const tokenEndpoint = `https://login.microsoftonline.com/common/oauth2/token`;
+    const groupPowerBi = `https://api.powerbi.com/v1.0/myorg/groups`;
+
+    const pw = process.env.AZ_PASSWORD;
+
+    const params = {
+      resource: process.env.RESOURCE,
+      scope: process.env.SCOPE,
+      username: 'wvega@close-upinternational.com.co',
+      password: pw,
+      client_id: process.env.AZURE_CLIENT_ID,
+      client_secret: process.env.AZURE_CLIENT_SECRET,
+      grant_type: process.env.GRANT_TYPE
+    };
+
+    const response = await axios.post(tokenEndpoint, qs.stringify(params), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+
+    // Obtener grupos de informes en formato JSON
+    const powerbi_group = await axios.get(groupPowerBi, {
+      headers: {
+        'Authorization': `Bearer ${response.data.access_token}`
+      }
+    });
+
+    const gruposInformes = powerbi_group.data.value.map(e => ({
+      id: e.id,
+      name: e.name
+    }));
+
+    res.status(200).json(gruposInformes);
+  } catch (error) {
+    console.error('Error obteniendo los informes de Power BI:', error.response);
+    res.status(500).json({ message: 'Error al obtener los informes de Power BI' });
+  }
+});
+
+//optenr reportes
+router.get('/obtener-reportes/:id_grupo', async (req, res) => {
+  try {
+    const id_grupo = req.params.id_grupo;
+
+    // AZ APP ADD
+    const tokenEndpoint = `https://login.microsoftonline.com/common/oauth2/token`;
+    const groupPowerBi = `https://api.powerbi.com/v1.0/myorg/groups`;
+
+    const pw = process.env.AZ_PASSWORD;
+
+    const params = {
+      resource: process.env.RESOURCE,
+      scope: process.env.SCOPE,
+      username: 'wvega@close-upinternational.com.co',
+      password: pw,
+      client_id: process.env.AZURE_CLIENT_ID,
+      client_secret: process.env.AZURE_CLIENT_SECRET,
+      grant_type: process.env.GRANT_TYPE
+    };
+
+    const response = await axios.post(tokenEndpoint, qs.stringify(params), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+
+    // Buscar grupo
+    const powerbi_group = await axios.get(groupPowerBi, {
+      headers: {
+        'Authorization': `Bearer ${response.data.access_token}`
+      }
+    });
+
+    // Lógica para buscar grupo
+    const grupoEncontrado = powerbi_group.data.value.find(e => e.id === id_grupo);
+
+    if (!grupoEncontrado) {
+      return res.status(404).json({ message: 'Grupo no encontrado' });
+    }
+
+    // Buscar reportes del grupo
+    const powerbi_rep_url = `https://api.powerbi.com/v1.0/myorg/groups/${id_grupo}/reports`;
+
+    const powerbi_reports = await axios.get(powerbi_rep_url, {
+      headers: {
+        'Authorization': `Bearer ${response.data.access_token}`
+      }
+    });
+
+    const reportes = powerbi_reports.data.value.map(reporte => ({
+      id: reporte.id,
+      name: reporte.name,
+      embedUrl: reporte.embedUrl
+    }));
+
+    res.status(200).json(reportes);
+  } catch (error) {
+    console.error('Error obteniendo los informes de Power BI:', error.response);
+    res.status(500).json({ message: 'Error al obtener los informes de Power BI' });
+  }
+});
+
+
 router.get('/eliminar-post/:id', async (req, res) => {
   const postId = req.params.id;
   //console.log(req.params.id);
@@ -231,8 +339,5 @@ router.get('/restaurar-post/:id', async (req, res) => {
     return res.status(200).json({ newStatus });
   });
 });
-
-
-
 
 module.exports = router;

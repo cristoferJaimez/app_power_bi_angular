@@ -27,15 +27,16 @@ router.get('/list-labs', authenticateToken, isAdmin,(req, res) => {
   });
 
   // Ruta para procesar el formulario y llamar al procedimiento almacenado
-router.post('/guardar-post', authenticateToken, isAdmin, (req, res) => {
+  router.post('/guardar-post', authenticateToken, isAdmin, (req, res) => {
     try {
       // Obtener los datos del formulario enviados en la solicitud
       const { usuario_id, id_report, url_report, token_report, title, description } = req.body;
   
       
+
       // Llamar al procedimiento almacenado
       const insertProcedure = `CALL guardar_post(?, ?, ?, ?, ?, NOW(), NOW(), 1, ?)`;
-      const procedureValues = [usuario_id, id_report, url_report, token_report, description, title];
+      const procedureValues = [usuario_id, id_report, url_report, "sin_token", description, title];
   
       // Ejecutar el procedimiento almacenado en la base de datos
       connection.query(insertProcedure, procedureValues, (error, results) => {
@@ -52,6 +53,7 @@ router.post('/guardar-post', authenticateToken, isAdmin, (req, res) => {
       return res.status(500).json({ error: 'Error al procesar el formulario' });
     }
   });
+  
 
   //rutas de admin//
 //users

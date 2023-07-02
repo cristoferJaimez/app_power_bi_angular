@@ -10,7 +10,7 @@ import { ReportModalService } from '../../services/report-credentials.service';
 import { PowerBiService } from '../../services/powerbi.service';
 import { AnimationItem } from 'lottie-web';
 import * as lottie from 'lottie-web';
-import { environment } from '../../environment'
+import { environment } from '../../environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -42,8 +42,6 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     this.logoutService.logout$.subscribe(() => {
       this.verifyToken();
     });
-
-   
 
     this.authService.isLoggedIn$.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
@@ -118,7 +116,6 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     this.http.get(url, { headers }).subscribe(
       (response: any) => {
         const posts = response;
-        //console.log(posts);
         
         if (Array.isArray(posts) && posts.length > 0) {
           this.posts = posts.map((post: any) => {
@@ -126,7 +123,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
             return post;
           });
         } else {
-          this.posts = []; // Asignar un arreglo vacío cuando no hay posts disponibles
+          this.posts = [];
         }
       },
       (error) => {
@@ -140,7 +137,6 @@ export class DashboardComponent implements OnInit, AfterViewInit{
   }
 
   openPowerBIReport(id: number) {
-      
     const dialogRef = this.dialog.open(ReportModalComponent, {
       width: '100%',
       height: '100%',
@@ -170,9 +166,8 @@ export class DashboardComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit() {
-    const animationPath = './assets/images/19314-sequis-empty-state.json'; // Verifica la ruta del archivo JSON de la animación
+    const animationPath = './assets/images/19314-sequis-empty-state.json';
 
-    // Opciones de configuración de la animación (ajusta según tus necesidades)
     const animationOptions: lottie.AnimationConfigWithPath = {
       container: this.animationContainer.nativeElement,
       renderer: 'svg',
@@ -181,9 +176,6 @@ export class DashboardComponent implements OnInit, AfterViewInit{
       path: animationPath
     };
 
-    // Cargar la animación utilizando lottie.default.loadAnimation()
     this.animationItem = lottie.default.loadAnimation(animationOptions);
   }
-  
-  
 }
